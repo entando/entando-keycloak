@@ -3,7 +3,7 @@
   <#if section = "title">
     ${msg("loginTitle",(realm.displayName!''))}
   <#elseif section = "form">
-    <form id="kc-form-login" class="${properties.kcFormClass!}" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
+    <form id="kc-form-login" class="${properties.kcFormClass!}" action="${url.loginAction}" method="post">
       <#if message?has_content>
         <div class="alert alert-danger">
           <#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span></#if>
