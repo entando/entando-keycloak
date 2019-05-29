@@ -1,7 +1,6 @@
 # Entando Keycloak Theme
 This project will create a Entando's Login Theme for Keycloak
 
-
 ## Build
 To build this on Docker run the following command
 
