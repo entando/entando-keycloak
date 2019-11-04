@@ -1,5 +1,5 @@
 FROM jboss/keycloak
-LABEL MAINTAINER="Sergio Marcelino <s.marcelino@entando.com>"
+LABEL MAINTAINER="Entando <dev@entando.com>"
 
 COPY themes /opt/jboss/keycloak/themes
 
