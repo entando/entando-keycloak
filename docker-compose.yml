@@ -1,8 +1,9 @@
-version: '2.1'
+version: '3.7'
 
 services:
   keycloak:
-    image: entando/keycloak
+    build:
+        context: ./
     hostname: keycloak
     ports:
       - "8081:8080"
