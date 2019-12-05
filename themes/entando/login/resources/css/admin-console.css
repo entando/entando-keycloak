@@ -31,6 +31,21 @@ pre {
     border: 0;
     width: 100%;
 }
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    float: left;
+}
+.col-xs-12 {
+    width: 100%;
+}
+.form-group {
+    margin-bottom: 15px;
+}
 /*-----ouline tolto-----*/
 button:focus {outline:0 !important;}
 
@@ -1405,6 +1420,25 @@ ul {
     margin-left: 10px;
 }
 
+.login-page {
+    min-height: 100vh;
+    padding-top: 40px;
+}
+
+.login-page > * {
+    float: none;
+}
+
+.left-wrapper, .right-wrapper {
+    width: 89%;
+    margin: auto;
+    color: #fff;
+}
+
+.left-wrap-cont {
+    margin: 0 auto;
+    padding: 0;
+}
 
 /* --------------- Display e Visibility --------------- */
 
@@ -1939,7 +1973,7 @@ label .fa-folder, .fa-folder {
 }
 
 #background-full {
-    background: url("../img/bg-login.jpg");
+    background: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0), rgba(0, 0, 0, 0)), url("../img/bg-login.jpg");
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -1952,16 +1986,6 @@ label .fa-folder, .fa-folder {
     background-attachment: fixed;
     background-size: cover;
     color: #fff;
-}
-.center1 {
-    margin: auto;
-    width: 60%;
-    color:#fff;
-}
-.center2 {
-    margin: auto;
-    width: 76%;
-    color:#fff;
 }
 .ux_brand{
     font-size: 36px;
@@ -1990,14 +2014,16 @@ label .fa-folder, .fa-folder {
 
 }
 .control-label-entando{
+    display: block;
     color: #fff!important;
-    font-size: 18px;
-    font-weight: 300;
+    font-size: 17px;
+    font-weight: 500;
     margin: 0 0 9px;
     font-family: 'LatoWeb';
 }
-.entando-input{
-    width: 434px;
+.entando-input {
+    display: block;
+    width: 100%;
     border-radius:3px;
     height:48px;
     font-size:18px;
@@ -2006,8 +2032,8 @@ label .fa-folder, .fa-folder {
     font-family: 'LatoWeb';
 }
 .login-buttons{
-    margin: 49px 0 0 0;
-    width: 434px;
+    margin: 50px 0 0 0;
+    width: auto;
 }
 .btn-custom-login{
     height:35px !important;
@@ -2020,16 +2046,15 @@ label .fa-folder, .fa-folder {
     transition: all 0.4s ease;
 }
 .login-buttons .btn-login{
+    display: block;
     height:35px;
-    width:207px;
+    width: 100%;
     background: #00B9F7;
     border-color: #00B9F7;
     border-radius:3px;
     color:#fff;
     font-size: 11px;
     text-transform: uppercase;
-    margin-left: 227px;
-    margin-top: -35px;
     transition: all 0.4s ease;
 }
 .login-buttons .btn-login:hover, .login-buttons-lp .btn-login:hover{
@@ -2051,6 +2076,17 @@ label .fa-folder, .fa-folder {
     font-size: 11px;
     font-family: LatoWebBold;
 }
+.left-wrapper .copyright-entando {
+    display: none;
+}
+.right-wrapper .copyright-entando {
+    padding-bottom: 25px;
+}
+.right-wrapper form {
+    margin-right: auto;
+    margin-left: auto;
+    padding: 30px 0;
+}
 .entando-sm-write{
     color: #00b9f7;
 }
@@ -2062,58 +2098,57 @@ label .fa-folder, .fa-folder {
 .v-align{
     margin: auto 0;
 }
-.center2 .alert{
+.right-wrapper .alert{
     width:434px;
 }
+
 @media (min-width: 768px){
-    .display-table{
-        display: inline-flex;
-        height: 100vh;
-    }
     .display-cell{
         display: inline-flex;
     }
-    .center1 {
-        margin: auto;
-        width: 91%;
-        color: #fff;
-    }
 }
-@media (min-width: 1200px){
-    .center1 {
-        margin: auto;
-        width: 70%;
-        color: #fff;
+@media (min-width: 992px) {
+    .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9 {
+        float: left;
     }
-    .center1 {
-        margin: auto;
-        width: 70%;
-        color: #fff;
+    .col-md-6 {
+        width: 50%;
     }
-}
-
-@media (min-width: 1200px){
-    .center1 {
-        margin: auto;
-        width: 70%;
-        color: #fff;
+    .login-page > * {
+        float: left;
     }
-    .center2 {
-        margin: auto;
-        width: 70%;
-        color: #fff;
+    .login-page {
+        display: flex;
+        padding-top: 0;
+        align-items: center;
+        justify-content: center;
     }
-}
-@media (min-width: 1440px){
-    .center1 {
-        margin: auto;
-        width: 60%;
-        color: #fff;
+    .left-wrapper, .right-wrapper {
+        width: 66%;
     }
-    .center2 {
-        margin: auto;
-        width: 60%;
-        color: #fff;
+    .left-wrap-cont {
+        padding: 0 0 20px 0;
+    }
+    .left-wrapper .copyright-entando {
+        display: block;
+    }
+    .right-wrapper .copyright-entando {
+        display: none;
+    }
+    .right-wrapper form {
+        padding: 30px;
+    }
+    .entando-input {
+        display: inline-block;
+        width: 434px;
+    }
+    .login-buttons{
+        width: 440px;
+    }
+    .login-buttons .btn-login{
+        display: inline-block;
+        width:207px;
+        margin-left: 227px;
     }
 }
 
