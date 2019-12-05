@@ -49,4 +49,5 @@
       </#if>
     </form>
   </#if>
+  <div class="copyright-entando">Copyright ${.now?string('yyyy')} <span class="entando-sm-write">Entando</span></div>
 </@layout.registrationLayout>
