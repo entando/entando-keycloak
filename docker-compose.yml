@@ -1,22 +1,6 @@
 version: '2.1'
 
 services:
-  database:
-    container_name: database
-    hostname: database
-    image: "mysql:5.7"
-    ports:
-      - "3307:3306"
-    environment:
-      - MYSQL_USER=keycloak
-      - MYSQL_PASSWORD=password
-      - MYSQL_ROOT_PASSWORD=password
-    healthcheck:
-      test: "/usr/bin/mysql --user=root --password=password --execute \"CREATE DATABASE IF NOT EXISTS keycloak; GRANT ALL ON keycloak.* TO 'keycloak'@'%';\""
-      interval: 3s
-      timeout: 1s
-      retries: 10
-
   keycloak:
     image: entando/keycloak
     hostname: keycloak
@@ -25,15 +9,5 @@ services:
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: qwe123
-      DB_ADDR: database
-      DB_PORT: 3306
-      DB_DATABASE: keycloak
-      DB_PASSWORD: password
-      DB_USER: keycloak
-      DB_VENDOR: mysql
+      DB_VENDOR: h2
       PROXY_ADDRESS_FORWARDING: "true"
-    depends_on:
-      database:
-        condition: service_healthy
-    links:
-      - database:database
