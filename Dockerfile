@@ -2,7 +2,7 @@ FROM jboss/keycloak:7.0.1
 LABEL MAINTAINER="Entando <dev@entando.com>"
 
 COPY themes /opt/jboss/keycloak/themes
-
+COPY cli /opt/jboss/tools/cli
 RUN export KEYCLOAK_HTTP_PORT=8080 && \
       cd  /opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/ && \
       mkdir driver && \

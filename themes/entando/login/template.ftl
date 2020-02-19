@@ -9,6 +9,7 @@
 
   <title><#nested "title"></title>
   <link href="${url.resourcesPath}/img/favicon-entando.png" rel="icon"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <#if properties.styles?has_content>
     <#list properties.styles?split(' ') as style>
       <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
@@ -16,11 +17,10 @@
   </#if>
 </head>
 
-<body id="background-full" class="display-table">
-  <#nested "header">
-  <div class="display-cell ">
-    <div class="col-md-6 v-align ">
-      <div class="center1">
+<body id="background-full" class="display-table login-page">
+  <div class="col-xs-12 col-md-6">
+    <div class="left-wrapper">
+      <div class="left-wrap-cont">
         <img class="logo-entando-login" src="${url.resourcesPath}/img/entando-logo.svg" />
         <p class="ux_brand"><strong>${msg("entandoUxBrand")}</strong></p>
         <p class="ux_brand_subtitle"> ${msg("entandoUxBrandSubtitle")}</p>
@@ -29,10 +29,10 @@
         <div class="copyright-entando">Copyright ${.now?string('yyyy')} <span class="entando-sm-write">Entando</span></div>
       </div>
     </div>
-    <div class="col-md-6 v-align ">
-      <div class="center2">
-        <#nested "form">
-      </div>
+  </div>
+  <div class="col-xs-12 col-md-6">
+    <div class="right-wrapper">
+      <#nested "form">
     </div>
   </div>
 </body>
