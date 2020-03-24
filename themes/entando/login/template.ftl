@@ -7,34 +7,42 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="robots" content="noindex, nofollow">
 
-  <title><#nested "title"></title>
+  <title>${msg("loginTitle",(realm.displayName!''))}</title>
   <link href="${url.resourcesPath}/img/favicon-entando.png" rel="icon"/>
+  <link href="${url.resourcesPath}/css/login.css" rel="stylesheet" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <#if properties.styles?has_content>
-    <#list properties.styles?split(' ') as style>
-      <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
-    </#list>
-  </#if>
 </head>
 
-<body id="background-full" class="display-table login-page">
-  <div class="col-xs-12 col-md-6">
-    <div class="left-wrapper">
-      <div class="left-wrap-cont">
-        <img class="logo-entando-login" src="${url.resourcesPath}/img/entando-logo.svg" />
-        <p class="ux_brand"><strong>${msg("entandoUxBrand")}</strong></p>
-        <p class="ux_brand_subtitle"> ${msg("entandoUxBrandSubtitle")}</p>
-        <div class="spacer-login"></div>
-        <div class="entando-intro">${msg("entandoIntro")}</div>
-        <div class="copyright-entando">Copyright ${.now?string('yyyy')} <span class="entando-sm-write">Entando</span></div>
-      </div>
+<body>
+
+    <div class="LoginPage">
+      <form class="LoginPage__form" action="${url.loginAction}" method="post">
+        <div class="LoginPage__brand">
+          <div class="LoginPage__logo"></div>
+          <div class="LoginPage__description">${msg("entandoUxBrandDescription")}</div>
+        </div>
+        <div class="LoginPage__formGroup">
+          <div class="LoginPage__inputGroup">
+            <label class="LoginPage__label">${msg("username")}</label>
+            <input type="text" name="username" tabindex="1" class="LoginPage__input" id="username" placeholder="Username" />
+          </div>
+          <div class="LoginPage__inputGroup extra-margin">
+            <label class="LoginPage__label">${msg("password")}</label>
+            <input type="password" name="password" tabindex="2" class="LoginPage__input" id="password" placeholder="Password" />
+          </div>
+          <#if message?has_content>
+            <div class="LoginPage__error">${message.summary?no_esc}</div>
+          </#if>
+          <div class="LoginPage__actionGroup">
+            <div></div>
+            <button class="LoginPage__button" type="submit">${msg("doLogIn")}</button>
+            <div class="LoginPage__loading">
+              <div class="LoginPage__spinner" />
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-  </div>
-  <div class="col-xs-12 col-md-6">
-    <div class="right-wrapper">
-      <#nested "form">
-    </div>
-  </div>
 </body>
 </html>
 </#macro>

@@ -35,6 +35,19 @@
           <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doLogIn")}"/>
         </div>
       </div>
+      <#if social.providers??>
+        <p class="para">${msg("selectAlternative")}</p>
+        <div id="social-providers">
+          <div id="kc-social-providers">
+            <ul class="list horizontal">
+              <#list social.providers as p>
+                <li><a href="${p.loginUrl}" id="zocial-${p.alias}" class="button zocial ${p.providerId}">${p.displayName}</a></li>
+              </#list>
+            </ul>
+          </div>
+        </div>
+      </#if>
     </form>
   </#if>
+  <div class="copyright-entando">Copyright ${.now?string('yyyy')} <span class="entando-sm-write">Entando</span></div>
 </@layout.registrationLayout>
