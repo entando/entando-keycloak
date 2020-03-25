@@ -19,7 +19,6 @@
       <form class="LoginPage__form" action="${url.loginAction}" method="post">
         <div class="LoginPage__brand">
           <div class="LoginPage__logo"></div>
-          <div class="LoginPage__description">${msg("entandoUxBrandDescription")}</div>
         </div>
         <div class="LoginPage__formGroup">
           <div class="LoginPage__inputGroup">
