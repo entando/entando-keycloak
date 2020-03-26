@@ -26,7 +26,7 @@ then open the browser to show the login screen. Default port (host is localhost)
 To apply theme updates, stop Keycloak, then
 
 ```
-$ docker-compose up --build
+docker-compose up --build
 ```
 
 If anything goes wrong, you can force removing the docker image with 
