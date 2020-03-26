@@ -76,14 +76,24 @@ table {
   font-weight: 500;
   src: local("Roboto Medium"), local("Roboto-Medium"), url(../font/Font_Roboto/Roboto-Medium.ttf) format("truetype"); }
 
+body, html {
+    height: 100%;
+}
+
+
 .LoginPage {
   width: 100vw;
-  height: 100vh;
   background-image: url("../img/Stack.png");
   display: grid;
   grid-template-columns: 1fr minmax(auto, 653px) 1fr;
   grid-template-rows: minmax(auto, 233px) 534px 1fr;
-  background-repeat: no-repeat; }
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 .LoginPage__form {
   grid-row: 2/3;
@@ -124,9 +134,26 @@ table {
   font-weight: 400;
   text-align: center; }
 
+
+.LoginPage__copyright {
+  margin-top: 13px;
+  color: #002F87;
+  opacity: 90%;
+  font-family: "Roboto";
+  font-size: 15px;
+  letter-spacing: -0.17px;
+  line-height: 30px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.LoginPage__url {
+  color: #00A0DF;
+  text-decoration: none;
+}
+
 .LoginPage__formGroup {
   display: grid;
-  margin-top: 20px;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(1fr, 3);
   padding-bottom: 50px;
