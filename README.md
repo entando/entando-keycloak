@@ -23,7 +23,7 @@ docker-compose up
 then open the browser to show the login screen. Default port (host is localhost) and credentials are set up in the `docker-compose.yml` file.
 
 ## Troubleshooting
-To apply theme updates, stop Keycloak, then
+To properly display theme changes, stop Keycloak, then
 
 ```
 docker-compose up --build
