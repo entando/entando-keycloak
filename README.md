@@ -1,16 +1,37 @@
 # Entando Keycloak Theme
-This project will create a Entando's Login Theme for Keycloak
+This repository contains a Keycloak instance with some custom Entando themes that change the appearance of:
+
+* Keycloak SSO login screen
+* Keycloak admin console
+
+For more info about Keycloak themes, see the [official docs](https://www.keycloak.org/docs/latest/server_development/#_themes).
 
 ## Build
-To build this on Docker run the following command
+To build the project with Docker run the following command
 
 ```
-$ docker build -t entando/keycloak:latest .
+docker build -t entando/keycloak:latest .
 ```
 
 ## Run
-To run the Keycloak there's a `docker-compose.yml` file in this project. After build, run the following command
+After the build, run the following command
 
 ```
-$ docker-compose up
+docker-compose up
+```
+
+then open the browser to show the login screen. Default port (host is localhost) and credentials are set up in the `docker-compose.yml` file.
+
+## Troubleshooting
+To properly display theme changes, stop Keycloak, then
+
+```
+docker-compose up --build
+```
+
+If anything goes wrong, you can force removing the docker image with 
+
+```
+docker rmi entando/keycloak —force
+docker-compose up --build
 ```
