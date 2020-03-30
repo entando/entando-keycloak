@@ -33,14 +33,22 @@
           </div>
           <#if message?has_content>
             <div class="LoginPage__error">${message.summary?no_esc}</div>
-          </#if>
-          <div class="LoginPage__actionGroup">
-            <div></div>
-            <button class="LoginPage__button" type="submit">${msg("doLogIn")}</button>
-            <div class="LoginPage__loading">
-              <div class="LoginPage__spinner" />
+            <div class="LoginPage__actionGroup" style="margin-top: 0;">
+              <div></div>
+              <button class="LoginPage__button" type="submit">${msg("doLogIn")}</button>
+              <div class="LoginPage__loading">
+                <div class="LoginPage__spinner" />
+              </div>
             </div>
-          </div>
+          <#else>
+            <div class="LoginPage__actionGroup">
+              <div></div>
+              <button class="LoginPage__button" type="submit">${msg("doLogIn")}</button>
+              <div class="LoginPage__loading">
+                <div class="LoginPage__spinner" />
+              </div>
+            </div>
+          </#if>
         </div>
         <div class="LoginPage__copyright">${msg("copyright")} ${aDate?string.yyyy} <a href="https://www.entando.com/" class="LoginPage__url">Entando</a></div>
       </form>
