@@ -83,7 +83,7 @@ body, html {
 
 .LoginPage {
   width: 100vw;
-  background-image: url("../img/Stack.png");
+  background-image: url("../img/login-bg.png");
   display: grid;
   grid-template-columns: 1fr minmax(auto, 653px) 1fr;
   grid-template-rows: minmax(auto, 233px) 534px 1fr;
@@ -118,7 +118,7 @@ body, html {
   height: 58px;
   width: 223px;
   margin-top: 50px;
-  background-image: url("../img/logo.svg");
+  background-image: url("../img/login-logo.svg");
   background-repeat: no-repeat;
   align-self: flex-start; }
 
@@ -218,6 +218,7 @@ body, html {
   justify-self: flex-end;
   height: 50px;
   width: 171px;
+  border: 0;
   background-color: #00A0DF;
   color: #FFFFFF;
   font-family: "Roboto";
