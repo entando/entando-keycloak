@@ -9,6 +9,7 @@ RUN export KEYCLOAK_HTTP_PORT=8080 && \
       curl https://repo1.maven.org/maven2/com/oracle/ojdbc/ojdbc8/19.3.0.0/ojdbc8-19.3.0.0.jar -o driver/ojdbc.jar
 
 ENV KEYCLOAK_HTTP_PORT=8080
+ENV KEYCLOAK_DEFAULT_THEME="entando"
 EXPOSE 8080
 
 CMD ["-b", "0.0.0.0"]
