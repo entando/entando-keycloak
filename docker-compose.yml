@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.3'
 
 services:
   keycloak:
@@ -12,3 +12,4 @@ services:
       KEYCLOAK_PASSWORD: qwe123
       DB_VENDOR: h2
       PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_DEFAULT_THEME: "entando"
