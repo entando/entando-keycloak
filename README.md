@@ -35,3 +35,11 @@ If anything goes wrong, you can force removing the docker image with
 docker rmi entando/keycloak —force
 docker-compose up --build
 ```
+
+## Deploy Kubernetes
+
+1. Install the postgresql template in Openshift: `oc create -f template/postgres.json`
+2. Install the template on openshift: `oc create -f templates/keycloak-mutual-tls.json`
+3. Deploy the postgres app: `oc new-app postgresql-for-keycloak`
+4. Deploy the keycloak app: `oc new-app keycloak-https`
+
