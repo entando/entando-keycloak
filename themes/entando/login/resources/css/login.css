@@ -117,18 +117,10 @@ body, html {
 
 
 .LoginPage {
-  width: 100vw;
-  background-image: url("../img/login-bg.png");
+  width: 100%;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
-  /* Full height */
-  height: 100%;
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
 }
 
 .LoginPage__form {
