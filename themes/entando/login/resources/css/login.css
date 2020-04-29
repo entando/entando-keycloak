@@ -89,7 +89,7 @@ body, html {
 }
 
 .LoginPage__topBarIconLogout {
-  background-image: url("../img/exit.png");
+  /*background-image: url("../img/exit.png");*/
   background-repeat: no-repeat;
   background-position: left;
   background-size: contain;
@@ -147,7 +147,7 @@ body, html {
   font-weight: bold;
   text-align: center;
   color: rgba(0, 0, 0, 0.85);
-  
+
 }
 
 .LoginPage__description {
@@ -165,7 +165,6 @@ body, html {
 
 .LoginPage__copyright {
   margin-top: 5px;
-  color: #002F87;
   opacity: 90%;
   font-family: "Roboto";
   font-size: 15px;
@@ -173,6 +172,12 @@ body, html {
   line-height: 30px;
   font-weight: 400;
   text-align: center;
+}
+
+.LoginPage__copyrightEntando {
+  font-size: 8px;
+  margin-top: 20px;
+  float: right;
 }
 
 .LoginPage__url {

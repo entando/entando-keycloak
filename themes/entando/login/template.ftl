@@ -76,6 +76,8 @@
             </div>
           </#if>
         </div>
+        <div class="LoginPage__copyright">All rights reserved Octo Telematics &copy; 2020</div>
+        <div class="LoginPage__copyrightEntando">Digital Experience powered by Entando</div>
       </form>
     </div>
 </body>
