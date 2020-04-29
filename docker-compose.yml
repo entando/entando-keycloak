@@ -2,8 +2,7 @@ version: '3.3'
 
 services:
   keycloak:
-    build:
-        context: ./
+    image: pmasala/keycloak:octo-covid19
     hostname: keycloak
     ports:
       - "8081:8080"
