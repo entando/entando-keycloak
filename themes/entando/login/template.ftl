@@ -11,30 +11,57 @@
   <link href="${url.resourcesPath}/img/favicon-entando.png" rel="icon"/>
   <link href="${url.resourcesPath}/css/login.css" rel="stylesheet" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <script>
+  function showPassword() {
+    var x = document.getElementById("password-field");
+    var y = document.getElementById("img-eye");
+    if (x.type === "password") {
+      x.type = "text";
+      y.style.backgroundImage = "url('${url.resourcesPath}/img/eye-open.png')";
+    } else {
+      x.type = "password";
+      y.style.backgroundImage = "url('${url.resourcesPath}/img/eye-blind.svg')";
+    }
+  }
+  </script>
+
+
 </head>
 
 <body>
     <#assign aDateTime = .now>
     <#assign aDate = aDateTime?date>
+     <div class="LoginPage__topBar">
+             <div class="LoginPage__topBarIconLogout"></div>
+             <div class="LoginPage__topBarLabelLogin">Login</div>
+             <div class="LoginPage__topBarLogo"></div>
+     </div>
     <div class="LoginPage">
+
       <form class="LoginPage__form" action="${url.loginAction}" method="post">
+
         <div class="LoginPage__brand">
-          <div class="LoginPage__logo"></div>
-          <div class="LoginPage__description">${msg("entandoUxBrandDescription")}</div>
+          <div class="LoginPage__logo">Welcome to Octo SmartPath</div>
         </div>
         <div class="LoginPage__formGroup">
           <div class="LoginPage__inputGroup">
-            <label class="LoginPage__label">${msg("username")}</label>
-            <input type="text" name="username" tabindex="1" class="LoginPage__input" id="username" placeholder="Username" />
+            <input type="text" name="username" tabindex="1" class="LoginPage__input" id="username" placeholder="E-mail o username" />
           </div>
           <div class="LoginPage__inputGroup extra-margin">
-            <label class="LoginPage__label">${msg("password")}</label>
-            <input type="password" name="password" tabindex="2" class="LoginPage__input" id="password" placeholder="Password" />
-          </div>
+            <input type="password" id="password-field" name="password" tabindex="2" class="LoginPage__input" id="password" placeholder="Password" />
+            <div class="LoginPage__inputGroupEye">
+                <div id="img-eye" class="LoginPage__inputGroupEyeImage" onclick="showPassword();"> </div>
+            </div>
+            <div class="LoginPage__recoveryPassword">
+                <#if realm.resetPasswordAllowed>
+                    <span><a tabindex="5" href="${url.loginResetCredentialsUrl}">${msg("doForgotPassword")}</a></span>
+                </#if>
+            </div>
+
           <#if message?has_content>
             <div class="LoginPage__error">${message.summary?no_esc}</div>
             <div class="LoginPage__actionGroup" style="margin-top: 0;">
-              <div></div>
               <button class="LoginPage__button" type="submit">${msg("doLogIn")}</button>
               <div class="LoginPage__loading">
                 <div class="LoginPage__spinner" />
@@ -42,7 +69,6 @@
             </div>
           <#else>
             <div class="LoginPage__actionGroup">
-              <div></div>
               <button class="LoginPage__button" type="submit">${msg("doLogIn")}</button>
               <div class="LoginPage__loading">
                 <div class="LoginPage__spinner" />
@@ -50,7 +76,6 @@
             </div>
           </#if>
         </div>
-        <div class="LoginPage__copyright">${msg("copyright")} ${aDate?string.yyyy} <a href="https://www.entando.com/" class="LoginPage__url">Entando</a></div>
       </form>
     </div>
 </body>
