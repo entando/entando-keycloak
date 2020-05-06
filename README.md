@@ -32,6 +32,6 @@ docker-compose up --build
 If anything goes wrong, you can force removing the docker image with 
 
 ```
-docker rmi entando/keycloak —force
+docker rmi entando/keycloak --force
 docker-compose up --build
 ```
