@@ -10,6 +10,7 @@
   <title>${msg("loginTitle",(realm.displayName!''))}</title>
   <link href="${url.resourcesPath}/img/favicon-entando.png" rel="icon"/>
   <link href="${url.resourcesPath}/css/login.css" rel="stylesheet" type="text/css">
+  <link href="${url.resourcesPath}/css/zocial.css" rel="stylesheet" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 
@@ -46,6 +47,24 @@
               <button class="LoginPage__button" type="submit">${msg("doLogIn")}</button>
               <div class="LoginPage__loading">
                 <div class="LoginPage__spinner" />
+              </div>
+            </div>
+          </#if>
+        </div>
+        <#if social.providers??>
+          <div class="LoginPage__social">
+            ${msg("socialLogin")}
+          </div>
+        </#if>
+        <div>
+          <#if social.providers??>
+            <div id="social-providers">
+              <div id="kc-social-providers">
+                <ul class="list horizontal">
+                  <#list social.providers as p>
+                    <li><a href="${p.loginUrl}" id="zocial-${p.alias}" class="button zocial ${p.providerId}">${p.displayName}</a></li>
+                  </#list>
+                </ul>
               </div>
             </div>
           </#if>
