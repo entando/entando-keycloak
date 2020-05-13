@@ -15,63 +15,18 @@
 </head>
 
 <body>
-    <#assign aDateTime = .now>
-    <#assign aDate = aDateTime?date>
-    <div class="LoginPage">
-      <form class="LoginPage__form" action="${url.loginAction}" method="post">
-        <div class="LoginPage__brand">
-          <div class="LoginPage__logo"></div>
-          <div class="LoginPage__description">${msg("entandoUxBrandDescription")}</div>
-        </div>
-        <div class="LoginPage__formGroup">
-          <div class="LoginPage__inputGroup">
-            <label class="LoginPage__label">${msg("username")}</label>
-            <input type="text" name="username" tabindex="1" class="LoginPage__input" id="username" placeholder="Username" />
-          </div>
-          <div class="LoginPage__inputGroup extra-margin">
-            <label class="LoginPage__label">${msg("password")}</label>
-            <input type="password" name="password" tabindex="2" class="LoginPage__input" id="password" placeholder="Password" />
-          </div>
-          <#if message?has_content>
-            <div class="LoginPage__error">${message.summary?no_esc}</div>
-            <div class="LoginPage__actionGroup" style="margin-top: 0;">
-              <div></div>
-              <button class="LoginPage__button" type="submit">${msg("doLogIn")}</button>
-              <div class="LoginPage__loading">
-                <div class="LoginPage__spinner" />
-              </div>
-            </div>
-          <#else>
-            <div class="LoginPage__actionGroup">
-              <div></div>
-              <button class="LoginPage__button" type="submit">${msg("doLogIn")}</button>
-              <div class="LoginPage__loading">
-                <div class="LoginPage__spinner" />
-              </div>
-            </div>
-          </#if>
-        </div>
-        <#if social.providers??>
-          <div class="LoginPage__social">
-            ${msg("socialLogin")}
-          </div>
-        </#if>
-        <div>
-          <#if social.providers??>
-            <div id="social-providers">
-              <div id="kc-social-providers">
-                <ul class="list horizontal">
-                  <#list social.providers as p>
-                    <li><a href="${p.loginUrl}" id="zocial-${p.alias}" class="button zocial ${p.providerId}">${p.displayName}</a></li>
-                  </#list>
-                </ul>
-              </div>
-            </div>
-          </#if>
-        </div>
-        <div class="LoginPage__copyright">${msg("copyright")} ${aDate?string.yyyy} <a href="https://www.entando.com/" class="LoginPage__url">Entando</a></div>
-      </form>
+  <div class="LoginPage">
+    <div class="LoginPage__formWrapper">
+      <div class="LoginPage__brand">
+        <div class="LoginPage__logo"></div>
+        <div class="LoginPage__description">${msg("entandoUxBrandDescription")}</div>
+      </div>
+      <#nested "form">
+      <#assign aDateTime = .now>
+      <#assign aDate = aDateTime?date>
+      <div class="LoginPage__copyright">${msg("copyright")} ${aDate?string.yyyy} <a href="https://www.entando.com/" class="LoginPage__url">Entando</a></div>
     </div>
+  </div>
 </body>
 </html>
 </#macro>

@@ -86,7 +86,7 @@ body, html {
   background-image: url("../img/login-bg.png");
   display: grid;
   grid-template-columns: 1fr minmax(auto, 653px) 1fr;
-  grid-template-rows: minmax(auto, 233px) minmax(534px, auto) minmax(20px, 1fr);
+  grid-template-rows: minmax(auto, 233px) minmax(534px, auto) minmax(10px, 1fr);
   /* Full height */
   height: 100%;
   /* Center and scale the image nicely */
@@ -138,7 +138,7 @@ body, html {
   line-height: 30px;
 }
 
-.LoginPage__form {
+.LoginPage__formWrapper {
   grid-row: 2/3;
   grid-column: 2/3;
   background-color: white;
@@ -147,6 +147,23 @@ body, html {
   grid-template-rows: 1fr 2fr;
   font-family: "Roboto";
   max-width: 1140px; }
+
+.LoginPage__form {
+  display: grid;
+  grid-template-columns: 1fr;
+  font-family: "Roboto";
+  max-width: 1140px; }
+
+#kc-passwd-update-form {
+font-family: "Roboto";
+max-width: 1140px;
+display: grid;
+grid-template-columns: 1fr;
+grid-template-rows: repeat(1fr, 3);
+padding-left: 50px;
+padding-right: 50px;
+row-gap: 14px;
+}
 
 .LoginPage__brand {
   display: grid;
@@ -188,6 +205,7 @@ body, html {
   line-height: 30px;
   font-weight: 400;
   text-align: center;
+  padding-bottom: 20px;
 }
 
 .LoginPage__url {
@@ -199,12 +217,22 @@ body, html {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(1fr, 3);
-  padding-bottom: 20px;
   padding-left: 50px;
   padding-right: 50px;
   row-gap: 14px; }
 
 .LoginPage__label {
+  display: block;
+  color: #4D4D4D;
+  font-family: 'Roboto';
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.17px;
+  line-height: 30px;
+  margin-bottom: 4px; }
+
+
+.wrapper-labelinput {
   display: block;
   color: #4D4D4D;
   font-family: 'Roboto';
@@ -227,6 +255,27 @@ body, html {
   background-color: #F2F4F8;
   border: 0px;
   font-weight: 400; }
+
+.entando-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 59px;
+  font-size: 18px;
+  letter-spacing: -0.17px;
+  line-height: 30px;
+  font-family: "Roboto", sans-serif;
+  padding-left: 10px;
+  color: #999999;
+  background-color: #F2F4F8;
+  border: 0px;
+  font-weight: 400; }
+
+.entando-input:focus {
+  outline: none;
+  color: #002F87;
+  background-color: white;
+  border: 1px solid #002F87; }
+
 
 .LoginPage__input:focus {
   outline: none;
@@ -274,6 +323,32 @@ body, html {
   font-weight: 500;
   cursor: pointer; }
 
+.login-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-buttons input {
+  justify-self: flex-end;
+  height: 50px;
+  width: 171px;
+  border: 0;
+  background-color: #00A0DF;
+  color: #FFFFFF;
+  font-family: "Roboto";
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: -0.17px;
+  line-height: 21px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer; }
+
+.login-buttons input:hover {
+  opacity: 80%; }
+
+
 .LoginPage__button:hover {
   opacity: 80%; }
 
@@ -303,7 +378,7 @@ body, html {
   width: 171px; }
 
 @media (max-width: 375px) {
-  .LoginPage__form {
+  .LoginPage__formWrapper {
     grid-row: 1/3; }
   .LoginPage__actionGroup {
     grid-template-columns: 1fr;
@@ -314,6 +389,8 @@ body, html {
     row-gap: 10px;
     margin-top: 0; }
   .LoginPage__button {
+    justify-self: center; }
+  .login-buttons input {
     justify-self: center; }
   .LoginPage__error {
     text-align: center; }
