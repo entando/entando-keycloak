@@ -1,4 +1,4 @@
-FROM jboss/keycloak:7.0.1
+FROM jboss/keycloak:11.0.0
 LABEL MAINTAINER="Entando <dev@entando.com>"
 
 COPY themes /opt/jboss/keycloak/themes
@@ -11,5 +11,7 @@ RUN export KEYCLOAK_HTTP_PORT=8080 && \
 ENV KEYCLOAK_HTTP_PORT=8080
 ENV KEYCLOAK_DEFAULT_THEME="entando"
 EXPOSE 8080
-
+USER root
+RUN sed -i s/root:x:0:/root:x:0:jboss/ /etc/group 
+USER jboss
 CMD ["-b", "0.0.0.0"]
