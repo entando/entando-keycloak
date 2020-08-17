@@ -2,10 +2,12 @@ buildPack: docker
 
 pipelineConfig:
   agent:
-    image: entando-jx-maven-java11
+    image: entando-jx-maven
   env:
     - name: PIPELINE_CODE
       value: ek
+    - name: ENTANDO_DOCKER_IMAGE_INFO_CONFIGMAP
+      value: "entando-docker-image-info-v6.1"
   pipelines:
     release:
       promote:
