@@ -12,17 +12,15 @@ build:
 deploy:
   kubectl: {}
 profiles:
-- name: dev
-  build:
-    tagPolicy:
-      envTemplate:
-        template: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}:{{.DIGEST_HEX}}'
-    local: {}
-  deploy:
-    helm:
-      releases:
-      - name: entando-keycloak
-        chartPath: charts/entando-keycloak
-        setValueTemplates:
-          image.repository: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}'
-          image.tag: '{{.DIGEST_HEX}}'
+  - name: keycloak
+    build:
+      artifacts:
+        - image: entando/entando-keycloak
+          docker:
+            dockerfile: Dockerfile.keycloak
+  - name: redhat-sso
+    build:
+      artifacts:
+        - image: entando/entando-redhat-sso
+          docker:
+            dockerfile: Dockerfile.redhat-sso
