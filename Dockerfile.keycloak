@@ -1,5 +1,13 @@
 FROM jboss/keycloak:11.0.3
 LABEL MAINTAINER="Entando <dev@entando.com>"
+ARG VERSION
+LABEL name="Entando Keycloak" \
+      vendor="Entando" \
+      version="v${VERSION}" \
+      release="6" \
+      summary="Keycloak with Entando's themes and extensions." \
+      description="This is container hosts Keycloak along with themes created for Entando."
+COPY LICENSE /licences/entando-lgpl.txt
 
 COPY themes /opt/jboss/keycloak/themes
 COPY cli /opt/jboss/tools/cli

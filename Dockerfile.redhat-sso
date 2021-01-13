@@ -1,9 +1,17 @@
 FROM registry.redhat.io/rh-sso-7/sso74-openshift-rhel8:latest
 LABEL MAINTAINER="Entando <dev@entando.com>"
+ARG VERSION
+LABEL name="Entando Red Hat SSO" \
+      vendor="Entando" \
+      version="v${VERSION}" \
+      release="6" \
+      summary="Red Hat SSO with Entando's themes and extensions." \
+      description="This is container hosts Red Hat SSO along with themes created for Entando."
+COPY LICENSE /licences/entando-lgpl.txt
 
 COPY themes /opt/eap/themes
 COPY redhat-sso/standalone-openshift.xml /opt/eap/standalone/configuration/standalone-openshift.xml
-COPY LICENSE /licenses/
+COPY LICENSE /licenses/entando-lgpl.txt
 ENV KEYCLOAK_DEFAULT_THEME="entando" \
     KEYCLOAK_HOME="/opt/eap"
 
