@@ -18,9 +18,13 @@ profiles:
         - image: entando/entando-keycloak
           docker:
             dockerfile: Dockerfile.keycloak
+            buildArgs:
+              VERSION: '{{.VERSION}}'
   - name: redhat-sso
     build:
       artifacts:
         - image: entando/entando-redhat-sso
           docker:
             dockerfile: Dockerfile.redhat-sso
+            buildArgs:
+              VERSION: '{{.VERSION}}'
