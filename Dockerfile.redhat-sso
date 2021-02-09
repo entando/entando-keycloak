@@ -15,7 +15,7 @@ COPY LICENSE /licenses/entando-lgpl.txt
 USER root
 RUN microdnf install yum \
        && yum -y update-minimal --security --sec-severity=Important --sec-severity=Critical \
-       && microdnf remove yum
+       && microdnf remove yum \
        && microdnf clean all
 USER jboss
 ENV KEYCLOAK_DEFAULT_THEME="entando" \
