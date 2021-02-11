@@ -12,12 +12,6 @@ COPY LICENSE /licences/entando-lgpl.txt
 COPY themes /opt/eap/themes
 COPY redhat-sso/standalone-openshift.xml /opt/eap/standalone/configuration/standalone-openshift.xml
 COPY LICENSE /licenses/entando-lgpl.txt
-USER root
-RUN microdnf install yum \
-       && yum -y update-minimal --security --sec-severity=Important --sec-severity=Critical \
-       && microdnf remove yum \
-       && microdnf clean all
-USER jboss
 ENV KEYCLOAK_DEFAULT_THEME="entando" \
     KEYCLOAK_HOME="/opt/eap"
 
