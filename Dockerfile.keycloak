@@ -1,4 +1,4 @@
-FROM jboss/keycloak:11.0.3
+FROM jboss/keycloak:12.0.2
 LABEL MAINTAINER="Entando <dev@entando.com>"
 ARG VERSION
 LABEL name="Entando Keycloak" \
