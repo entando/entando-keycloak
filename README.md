@@ -10,7 +10,7 @@ For more info about Keycloak themes, see the [official docs](https://www.keycloa
 To build the project with Docker run the following command
 
 ```
-docker build -t entando/keycloak:latest .
+docker build -t entando/keycloak:latest -f Dockerfile.keycloak .
 ```
 
 ## Run
