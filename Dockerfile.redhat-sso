@@ -1,4 +1,4 @@
-FROM registry.redhat.io/rh-sso-7/sso74-openshift-rhel8:7.4-16.1614713173
+FROM registry.redhat.io/rh-sso-7/sso74-openshift-rhel8:7.4-25
 LABEL MAINTAINER="Entando <dev@entando.com>"
 ARG VERSION
 LABEL name="Entando Red Hat SSO" \
