@@ -1,4 +1,4 @@
-FROM registry.redhat.io/rh-sso-7/sso74-openshift-rhel8:7.4-25
+FROM registry.redhat.io/rh-sso-7/sso74-openshift-rhel8:7.4-25.1617296050
 LABEL MAINTAINER="Entando <dev@entando.com>"
 ARG VERSION
 LABEL name="Entando Red Hat SSO" \
@@ -8,9 +8,6 @@ LABEL name="Entando Red Hat SSO" \
       summary="Red Hat SSO with Entando's themes and extensions." \
       description="This is container hosts Red Hat SSO along with themes created for Entando."
 COPY LICENSE /licences/entando-lgpl.txt
-USER root
-RUN microdnf -y update
-USER jboss
 COPY themes /opt/eap/themes
 COPY redhat-sso/modules/ /opt/eap/modules/system/layers/openshift/
 COPY redhat-sso/standalone-openshift.xml /opt/eap/standalone/configuration/standalone-openshift.xml
