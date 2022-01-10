@@ -1,9 +1,9 @@
 version: '3.3'
-
 services:
   keycloak:
     build:
         context: ./
+        dockerfile: Dockerfile.keycloak
     hostname: keycloak
     ports:
       - "8081:8080"

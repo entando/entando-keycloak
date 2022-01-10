@@ -6,18 +6,11 @@ This repository contains a Keycloak instance with some custom Entando themes tha
 
 For more info about Keycloak themes, see the [official docs](https://www.keycloak.org/docs/latest/server_development/#_themes).
 
-## Build
-To build the project with Docker run the following command
-
-```
-docker build -t entando/keycloak:latest -f Dockerfile.keycloak .
-```
-
 ## Run
-After the build, run the following command
+In order to run locally (by default with Keycloak):
 
 ```
-docker-compose up
+docker-compose up --build
 ```
 
 then open the browser to show the login screen. Default port (host is localhost) and credentials are set up in the `docker-compose.yml` file.
