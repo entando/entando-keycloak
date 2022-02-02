@@ -8,7 +8,34 @@ services:
     ports:
       - "8081:8080"
     environment:
+      # Using Dockerfile.keycloak
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: qwe123
       DB_VENDOR: h2
       PROXY_ADDRESS_FORWARDING: "true"
+
+      # Using Dockerfile.keycloak - other database connection parameters
+      #DB_ADDR: "db-host"
+      #DB_PORT: 3306
+      #DB_DATABASE: keycloak
+      #DB_USER: username
+      #DB_PASSWORD: password
+
+      # Using Dockerfile.redhat-sso
+      #SSO_ADMIN_USERNAME: admin
+      #SSO_ADMIN_PASSWORD: qwe123
+      #PROXY_ADDRESS_FORWARDING: "true"
+      
+      # Using Dockerfile.redhat-sso - configure a different database (default is H2)
+      #DB_SERVICE_PREFIX_MAPPING: db-postgresql=DB
+      #DB_POSTGRESQL_SERVICE_HOST: "db-host"
+      #DB_POSTGRESQL_SERVICE_PORT: 5432
+      #DB_VENDOR: postgres
+      #DB_DATABASE: postgresql
+      #DB_USERNAME: username
+      #DB_PASSWORD: password
+
+      # Using Dockerfile.redhat-sso - addional configuration needed by Oracle database
+      #DB_URL: jdbc:oracle:thin:@db-host:1521:XE
+      #DB_NONXA: "true"
+

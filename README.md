@@ -15,6 +15,8 @@ docker-compose up --build
 
 then open the browser to show the login screen. Default port (host is localhost) and credentials are set up in the `docker-compose.yml` file.
 
+By default `docker-compose` uses `Dockerfile.keycloak`. If you want to use `Dockerfile.redhat-sso` you have to enable the enviroment variables that are currently commented out in the YAML file.
+
 ## Troubleshooting
 To properly display theme changes, stop Keycloak, then
 
