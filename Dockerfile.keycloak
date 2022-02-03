@@ -12,10 +12,11 @@ COPY LICENSE /licences/entando-lgpl.txt
 COPY themes /opt/jboss/keycloak/themes
 COPY cli /opt/jboss/tools/cli
 
+ARG ORACLE_JDBC_DRIVER_VERSION=21.4.0.0.1
 RUN export KEYCLOAK_HTTP_PORT=8080 && \
       cd  /opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/ && \
       mkdir driver && \
-      curl https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc8/21.4.0.0.1/ojdbc8-21.4.0.0.1.jar -o driver/ojdbc.jar
+      curl https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc8/${ORACLE_JDBC_DRIVER_VERSION}/ojdbc8-${ORACLE_JDBC_DRIVER_VERSION}.jar -o driver/ojdbc.jar
 
 ENV KEYCLOAK_DEFAULT_THEME="entando" \
     KEYCLOAK_HOME="/opt/jboss/keycloak" \

@@ -2,8 +2,8 @@ version: '3.3'
 services:
   keycloak:
     build:
-        context: ./
-        dockerfile: Dockerfile.keycloak
+      context: ./
+      dockerfile: Dockerfile.keycloak
     hostname: keycloak
     ports:
       - "8081:8080"
@@ -22,8 +22,8 @@ services:
 
   redhat-sso:
     build:
-        context: ./
-        dockerfile: Dockerfile.redhat-sso
+      context: ./
+      dockerfile: Dockerfile.redhat-sso
     hostname: redhat-sso
     ports:
       - "8081:8080"
