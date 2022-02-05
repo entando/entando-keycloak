@@ -162,7 +162,7 @@
                         <xa-datasource-class>com.mysql.cj.jdbc.MysqlXADataSource</xa-datasource-class>
                     </driver>
                     <driver name="oracle" module="com.oracle">
-                        <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+                        <driver-class>oracle.jdbc.OracleDriver</driver-class>
                     </driver>
                     <!-- ##DRIVERS## -->
                 </drivers>

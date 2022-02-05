@@ -1,4 +1,4 @@
-FROM registry.redhat.io/rh-sso-7/sso75-openshift-rhel8:7.5-11
+FROM registry.redhat.io/rh-sso-7/sso75-openshift-rhel8:7.5-15
 LABEL MAINTAINER="Entando <dev@entando.com>"
 ARG VERSION
 LABEL name="Entando Red Hat SSO" \
@@ -13,6 +13,10 @@ COPY redhat-sso/modules/ /opt/eap/modules/system/layers/openshift/
 COPY redhat-sso/standalone-openshift.xml /opt/eap/standalone/configuration/standalone-openshift.xml
 COPY redhat-sso/datasource-common.sh /opt/eap/bin/launch/datasource-common.sh
 
+ARG MYSQL_JDBC_DRIVER_VERSION=8.0.22
+ARG ORACLE_JDBC_DRIVER_VERSION=21.4.0.0.1
+RUN curl https://repo1.maven.org/maven2/mysql/mysql-connector-java/${MYSQL_JDBC_DRIVER_VERSION}/mysql-connector-java-${MYSQL_JDBC_DRIVER_VERSION}.jar -o /opt/eap/modules/system/layers/openshift/com/mysql/main/mysql-connector-java.jar
+RUN curl https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc8/${ORACLE_JDBC_DRIVER_VERSION}/ojdbc8-${ORACLE_JDBC_DRIVER_VERSION}.jar -o /opt/eap/modules/system/layers/openshift/com/oracle/main/ojdbc8.jar
 RUN mkdir -p /opt/eap/modules/system/layers/com/ongres/scram/common/2.1/ \
  && curl https://repo1.maven.org/maven2/com/ongres/scram/common/2.1/common-2.1.jar -o /opt/eap/modules/system/layers/com/ongres/scram/common/2.1/common-2.1.jar
 

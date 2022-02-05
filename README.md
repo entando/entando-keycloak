@@ -7,10 +7,16 @@ This repository contains a Keycloak instance with some custom Entando themes tha
 For more info about Keycloak themes, see the [official docs](https://www.keycloak.org/docs/latest/server_development/#_themes).
 
 ## Run
-In order to run locally (by default with Keycloak):
+In order to run locally using Keycloak:
 
 ```
-docker-compose up --build
+docker-compose up --build keycloak
+```
+
+In order to run locally using Red Hat SSO:
+
+```
+docker-compose up --build redhat-sso
 ```
 
 then open the browser to show the login screen. Default port (host is localhost) and credentials are set up in the `docker-compose.yml` file.
