@@ -7,11 +7,11 @@ LABEL name="Entando Red Hat SSO" \
       release="7" \
       summary="Red Hat SSO with Entando's themes and extensions." \
       description="This is container hosts Red Hat SSO along with themes created for Entando."
-COPY LICENSE /licences/entando-lgpl.txt
-COPY themes /opt/eap/themes
-COPY redhat-sso/modules/ /opt/eap/modules/system/layers/openshift/
-COPY redhat-sso/standalone-openshift.xml /opt/eap/standalone/configuration/standalone-openshift.xml
-COPY redhat-sso/datasource-common.sh /opt/eap/bin/launch/datasource-common.sh
+COPY --chown=185:0 LICENSE /licences/entando-lgpl.txt
+COPY --chown=185:0 themes /opt/eap/themes
+COPY --chown=185:0 redhat-sso/modules/ /opt/eap/modules/system/layers/openshift/
+COPY --chown=185:0 redhat-sso/standalone-openshift.xml /opt/eap/standalone/configuration/standalone-openshift.xml
+COPY --chown=185:0 redhat-sso/datasource-common.sh /opt/eap/bin/launch/datasource-common.sh
 
 ARG MYSQL_JDBC_DRIVER_VERSION=8.0.22
 ARG ORACLE_JDBC_DRIVER_VERSION=21.4.0.0.1
