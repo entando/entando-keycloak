@@ -21,6 +21,11 @@ RUN export KEYCLOAK_HTTP_PORT=8080 && \
 ENV KEYCLOAK_DEFAULT_THEME="entando" \
     KEYCLOAK_HOME="/opt/jboss/keycloak" \
     HOME="/home/jboss"
+    
+ENV JGROUPS_DISCOVERY_PROTOCOL="dns.DNS_PING" \
+    JGROUPS_DISCOVERY_PROPERTIES="dns_query=keycloak-headless" \
+    CACHE_OWNERS_COUNT="2" \
+    CACHE_OWNERS_AUTH_SESSIONS_COUNT="2"
 
 USER root
 RUN mkdir -p "$HOME"; \
