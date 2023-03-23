@@ -43,7 +43,7 @@ jobs:
             .. @checkout-branch --lcd "$LOCAL_CLONE_DIR" \
             .. status-report \
             .. @setup-feature-flags "PR_PREFLIGHT_CHECKS" "BOM_CHECK" "BOM" \
-            .. @setup-features-list "SCAN_MATRIX" --prefix "MTX-MVN-,MTX-SCAN-" \
+            .. @setup-features-list "SCAN_MATRIX" --prefix "MTX-ENP-,MTX-SCAN-" \
           ;
       - name: "PR preflight checks"
         if: steps.START.outputs.PR_PREFLIGHT_CHECKS != 'false'
@@ -61,6 +61,10 @@ jobs:
     env:
       ENTANDO_BOT_TOKEN: "${{ secrets.ENTANDO_BOT_TOKEN }}"
       ENTANDO_OPT_OKD_LOGIN_TOKEN: "${{ secrets.ENTANDO_OPT_OKD_LOGIN_TOKEN }}"
+      ENTANDO_RHT_DOCKER_USERNAME: "${{ secrets.ENTANDO_RHT_DOCKER_USERNAME }}"
+      ENTANDO_RHT_DOCKER_PASSWORD: "${{ secrets.ENTANDO_RHT_DOCKER_PASSWORD }}"
+      ENTANDO_RHT_DOCKER_REGISTRY: "${{ secrets.ENTANDO_RHT_DOCKER_REGISTRY }}"
+
     steps:
       #~ CHECKOUT
       - name: "CHECKOUT"
@@ -71,30 +75,18 @@ jobs:
             --lcd "$LOCAL_CLONE_DIR" \
             --token "$ENTANDO_BOT_TOKEN" \
           ;
-      #~ JDK
-      - name: "Set up JDK 11"
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      #~ MAVEN CACHE
-      - name: "Cache Maven packages"
+          ~/ppl-run generic GENERATE-BUILD-CACHE-KEY "BUILD_CACHE_KEY" --lcd "$LOCAL_CLONE_DIR" >> $GITHUB_ENV
+          ~/ppl-run generic GENERATE-BUILD-TARGET-DIR "BUILD_TARGET_DIR" --lcd "$LOCAL_CLONE_DIR" >> $GITHUB_ENV
+      #~ BUILD CACHE
+      - name: "Cache Build Dir"
+        id: build-cache
         uses: actions/cache@v2
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2
-          restore-keys: ${{ runner.os }}-m2
-      #~ SONAR CACHE
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+          path: "${{ env.LOCAL_CLONE_DIR}}/${{ env.BUILD_TARGET_DIR }}/"
+          key: "${{ runner.os }}-enp-build-${{ env.BUILD_CACHE_KEY }}"
       #~ BUILD
       - name: "FULL BUILD"
         env:
-          ENTANDO_OPT_SONAR_PROJECT_KEY: "${{ secrets.ENTANDO_OPT_SONAR_PROJECT_KEY }}"
-          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: |
           ~/ppl-run generic FULL-BUILD --lcd "$LOCAL_CLONE_DIR"
@@ -110,7 +102,7 @@ jobs:
       max-parallel: 5
       fail-fast: false
       matrix:
-        scan-type: ${{fromJson(needs.prepare.outputs.SCAN_MATRIX)}}
+        mtx-step: ${{fromJson(needs.prepare.outputs.SCAN_MATRIX)}}
 
     steps:
       #~ CHECKOUT
@@ -118,42 +110,29 @@ jobs:
         run: |
           ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
           ~/ppl-run checkout-branch pr --lcd "$LOCAL_CLONE_DIR"
-      #~ JDK
-      - name: "Set up JDK 11"
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      #~ MAVEN CACHE
-      - name: "Cache Maven packages"
-        id: maven-cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-matrix-${{ matrix.scan-type }}
-          restore-keys: |
-            ${{ runner.os }}-m2-matrix-${{ matrix.scan-type }}
-            ${{ runner.os }}-m2-matrix-
-            ${{ runner.os }}-m2-
       #~ SCAN
-      - name: "Run the matrix step ${{ matrix.scan-type }}"
+      - name: "Run the matrix step ${{ matrix.mtx-step }}"
         run: |
-          SCAN_TYPE="${{ matrix.scan-type }}"
-          case "$SCAN_TYPE" in
-            MTX-MVN-SCAN-SONAR)
-              export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
-              export SONAR_TOKEN="${{ secrets.SONAR_TOKEN }}"
-              export ENTANDO_OPT_SONAR_PROJECT_KEY="${{ secrets.ENTANDO_OPT_SONAR_PROJECT_KEY }}"
-              ;;
-            MTX-SCAN-SNYK)
-              export SNYK_TOKEN="${{ secrets.SNYK_TOKEN }}"
-              ;;
-            MTX-MVN-POST-DEPLOYMENT-TESTS)
-              export ENTANDO_OPT_OKD_LOGIN_TOKEN="${{ secrets.ENTANDO_OPT_OKD_LOGIN_TOKEN }}"
-              export ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS="${{ secrets.ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS }}"
-              export ENTANDO_OPT_DOCKER_USERNAME="${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}"
-              export ENTANDO_OPT_DOCKER_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
-              export ENTANDO_OPT_TEST_TLS_CRT="${{ secrets.ENTANDO_OPT_TEST_TLS_CRT }}"
-              export ENTANDO_OPT_TEST_TLS_KEY="${{ secrets.ENTANDO_OPT_TEST_TLS_KEY }}"
-              ;;
-          esac
-          ~/ppl-run generic "$SCAN_TYPE" mvn --id "$SCAN_TYPE" --lcd "$LOCAL_CLONE_DIR"
+          MTX_STEP="${{ matrix.mtx-step }}"
+
+          ~/ppl-run generic GENERATE-REQUIREMENT-SPEC "MTX_REQUIREMENT" "$MTX_STEP" >> $GITHUB_ENV
+          for spec in (("${{ env.MTX_REQUIREMENT }}")); do
+            case "${{ env.MTX_REQUIREMENT }}" in
+              ENTANDO-REQ-GITHUB-SPECIAL)
+                export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+                ;;
+              ENTANDO-REQ-SNYK)
+                export SNYK_TOKEN="${{ secrets.SNYK_TOKEN }}"
+                ;;
+              ENTANDO-REQ-POST-DEP)
+                export ENTANDO_OPT_OKD_LOGIN_TOKEN="${{ secrets.ENTANDO_OPT_OKD_LOGIN_TOKEN }}"
+                export ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS="${{ secrets.ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS }}"
+                export ENTANDO_OPT_DOCKER_USERNAME="${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}"
+                export ENTANDO_OPT_DOCKER_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
+                export ENTANDO_OPT_TEST_TLS_CRT="${{ secrets.ENTANDO_OPT_TEST_TLS_CRT }}"
+                export ENTANDO_OPT_TEST_TLS_KEY="${{ secrets.ENTANDO_OPT_TEST_TLS_KEY }}"
+                ;;
+            esac
+          done
+
+          ~/ppl-run generic "$MTX_STEP" --id "$MTX_STEP" --lcd "$LOCAL_CLONE_DIR"
