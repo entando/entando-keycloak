@@ -1,4 +1,4 @@
-FROM jboss/keycloak:15.1.1
+FROM quay.io/keycloak/keycloak:18.0.2
 LABEL MAINTAINER="Entando <dev@entando.com>"
 ARG VERSION
 LABEL name="Entando Keycloak" \
