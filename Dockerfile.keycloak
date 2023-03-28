@@ -9,8 +9,8 @@ LABEL name="Entando Keycloak" \
       description="This is container hosts Keycloak along with themes created for Entando."
 COPY LICENSE /licences/entando-lgpl.txt
 
-COPY themes /opt/keycloak/themes
-COPY cli /opt/keycloak/tools/cli
+COPY themes /opt/jboss/keycloak/themes
+COPY cli /opt/jboss/keycloak/tools/cli
 
 ARG ORACLE_JDBC_DRIVER_VERSION=21.4.0.0.1
 RUN export KEYCLOAK_HTTP_PORT=8080 && \
