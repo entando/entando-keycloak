@@ -1,84 +1,113 @@
-name: Internal Snapshot Publication
+name: PUB
 
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 env:
-  ENTANDO_OPT_USE_PPL_TAG: "v1.4.1"
-  ENTANDO_OPT_DATA_REPO: "${{ secrets.ENTANDO_OPT_DATA_REPO }}"
-  ENTANDO_OPT_DATA_REPO_TOKEN: "${{ secrets.ENTANDO_OPT_DATA_REPO_TOKEN }}"
-  ENTANDO_OPT_ENVIRONMENT_NAMES: "${{ secrets.ENTANDO_OPT_ENVIRONMENT_NAMES }}"
-  ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
-  ENTANDO_OPT_GLOBAL_FEATURES: "${{ secrets.ENTANDO_OPT_GLOBAL_FEATURES }}"
-  ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
-  ENTANDO_OPT_CUSTOM_ENV: "${{ secrets.ENTANDO_OPT_CUSTOM_ENV }}"
-  ENTANDO_RHT_DOCKER_USERNAME: "${{ secrets.ENTANDO_RHT_DOCKER_USERNAME }}"
-  ENTANDO_RHT_DOCKER_PASSWORD: "${{ secrets.ENTANDO_RHT_DOCKER_PASSWORD }}"
-  ENTANDO_RHT_DOCKER_REGISTRY: "${{ secrets.ENTANDO_RHT_DOCKER_REGISTRY }}"
-  PPL_CONTEXT: ${{ toJson(github) }}
-  LOCAL_CLONE_DIR: "local-checkout"
+  PPL_TEMPLATE_VERSION: "v2.0.0"
+  ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
+  PR_CHECKER_PATH: ".github/pr-title-checker-config.json"
 
+  DOCKER_KEYCLOAK_IMAGE_BASE_NAME: entando/entando-keycloak
+  DOCKER_SSO_IMAGE_BASE_NAME: entando/entando-redhat-sso
+  DOCKER_KEYCLOAK_IMAGE_ARCHITECTURE: linux/amd64,linux/arm64
+  DOCKER_SSO_IMAGE_ARCHITECTURE: linux/amd64
+  DOCKER_IMAGE_CONTEXT: .
+  DOCKER_KEYCLOAK_IMAGE_FILE: Dockerfile.keycloak
+  DOCKER_SSO_IMAGE_FILE: Dockerfile.redhat-sso
+  DOCKER_IMAGE_PUSH: true
 
 jobs:
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # PUBLICATION
 
-  publication:
-    outputs:
-      POST_PUB_DOCKER_SCAN: ${{ steps.START.outputs.POST_PUB_DOCKER_SCAN }}
-      POST_DEP_TESTS: ${{ steps.START.outputs.POST_DEP_TESTS }}
-    env:
-      ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
+  check-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: "PR PIPELINE START"
-        id: START
-        run: |
-          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
-          ~/ppl-run status-report
-      #~ CHECKOUT
-      - name: "CHECKOUT"
-        id: CHECKOUT
-        run: |
-          ~/ppl-run \
-            .. checkout-branch --id "CHECKOUT FOR PUBLICATION" \
-                  --lcd "$LOCAL_CLONE_DIR" \
-                  --token "$ENTANDO_BOT_TOKEN" \
-            .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
-          ;
-          ~/ppl-run generic GENERATE-BUILD-CACHE-KEY "BUILD_CACHE_KEY" --lcd "$LOCAL_CLONE_DIR" >> $GITHUB_ENV
-          ~/ppl-run generic GENERATE-BUILD-TARGET-DIR "BUILD_TARGET_DIR" --lcd "$LOCAL_CLONE_DIR" >> $GITHUB_ENV
-      #~ BUILD CACHE
-      #- name: "Cache Build Dir"
-        #id: build-cache
-        #uses: actions/cache@v2
-        #with:
-          #path: "${{ env.LOCAL_CLONE_DIR}}/${{ env.BUILD_TARGET_DIR }}/"
-          #key: "${{ runner.os }}-enp-build-${{ env.BUILD_CACHE_KEY }}"
-      #~ PUBLISH THE ARTIFACT
-      - name: "Publish package"
-        run: |
-          ~/ppl-run generic PUBLISH \
-            --id "PUBLICATION" \
-            --lcd "$LOCAL_CLONE_DIR"
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-      #~ PUBLISH TO DOCKER
-      - name: "Publish image"
-        env:
-          ENTANDO_OPT_DOCKER_PASSWORD: "${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
-          ENTANDO_OPT_DOCKER_ALT_PASSWORD: "${{ secrets.ENTANDO_OPT_DOCKER_ALT_PASSWORD }}"
-        run: |
-          ~/ppl-run generic PUBLISH-IMAGE --lcd "$LOCAL_CLONE_DIR"
+      - uses: thehanimo/pr-title-checker@v1.3.7
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          pass_on_octokit_error: false
+          configuration_path: ${{ env.PR_CHECKER_PATH }}
 
-      #~ POST SCAN
-      - name: "Post-scan container"
-        env:
-          SNYK_ORG: "${{ secrets.SNYK_ORG }}"
-          SNYK_TOKEN: "${{ secrets.SNYK_TOKEN }}"
-        run: |
-          ~/ppl-run generic SCAN-IMAGE --lcd "$LOCAL_CLONE_DIR"
+  publication:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Docker meta-keycloak
+        id: meta-keycloak
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ${{ env.DOCKER_KEYCLOAK_IMAGE_BASE_NAME }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr,value={{base_ref}}
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            type=raw,event=pr,value={{base_ref}}
+
+      - name: Docker meta-sso
+        id: meta-sso
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ${{ env.DOCKER_SSO_IMAGE_BASE_NAME }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            type=raw,event=pr,value={{branch}}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          platforms: ${{ env.DOCKER_KEYCLOAK_IMAGE_ARCHITECTURE }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}
+          password: ${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}
+
+      - name: Login to RHT
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.ENTANDO_RHT_DOCKER_REGISTRY }}
+          username: ${{ secrets.ENTANDO_RHT_DOCKER_USERNAME }}
+          password: ${{ secrets.ENTANDO_RHT_DOCKER_PASSWORD }}
+
+      - name: Build keycloak
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ env.DOCKER_IMAGE_CONTEXT }}
+          file: ${{ env.DOCKER_KEYCLOAK_IMAGE_FILE }}
+          push: ${{ env.DOCKER_IMAGE_PUSH }}
+          tags: ${{ steps.meta-keycloak.outputs.tags }}
+          labels: ${{ steps.meta-keycloak.outputs.labels }}
+          platforms: ${{ env.DOCKER_KEYCLOAK_IMAGE_ARCHITECTURE }}
+
+      - name: Build sso
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ env.DOCKER_IMAGE_CONTEXT }}
+          file: ${{ env.DOCKER_SSO_IMAGE_FILE }}
+          push: ${{ env.DOCKER_IMAGE_PUSH }}
+          tags: ${{ steps.meta-sso.outputs.tags }}
+          labels: ${{ steps.meta-sso.outputs.labels }}
+          platforms: ${{ env.DOCKER_SSO_IMAGE_ARCHITECTURE }}

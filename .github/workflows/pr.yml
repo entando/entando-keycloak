@@ -94,45 +94,45 @@ jobs:
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # SCANS
-  scans:
-    needs: [ 'prepare', 'full-build' ]
-    runs-on: ubuntu-latest
-    if: ${{ needs.prepare.outputs.SCAN_MATRIX != '' }}
-    strategy:
-      max-parallel: 5
-      fail-fast: false
-      matrix:
-        mtx-step: ${{fromJson(needs.prepare.outputs.SCAN_MATRIX)}}
-
-    steps:
-      #~ CHECKOUT
-      - name: "CHECKOUT"
-        run: |
-          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
-          ~/ppl-run checkout-branch pr --lcd "$LOCAL_CLONE_DIR"
-      #~ SCAN
-      - name: "Run the matrix step ${{ matrix.mtx-step }}"
-        run: |
-          MTX_STEP="${{ matrix.mtx-step }}"
-
-          ~/ppl-run generic GENERATE-REQUIREMENT-SPEC "MTX_REQUIREMENT" "$MTX_STEP" >> $GITHUB_ENV
-          for spec in (("${{ env.MTX_REQUIREMENT }}")); do
-            case "${{ env.MTX_REQUIREMENT }}" in
-              ENTANDO-REQ-GITHUB-SPECIAL)
-                export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
-                ;;
-              ENTANDO-REQ-SNYK)
-                export SNYK_TOKEN="${{ secrets.SNYK_TOKEN }}"
-                ;;
-              ENTANDO-REQ-POST-DEP)
-                export ENTANDO_OPT_OKD_LOGIN_TOKEN="${{ secrets.ENTANDO_OPT_OKD_LOGIN_TOKEN }}"
-                export ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS="${{ secrets.ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS }}"
-                export ENTANDO_OPT_DOCKER_USERNAME="${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}"
-                export ENTANDO_OPT_DOCKER_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
-                export ENTANDO_OPT_TEST_TLS_CRT="${{ secrets.ENTANDO_OPT_TEST_TLS_CRT }}"
-                export ENTANDO_OPT_TEST_TLS_KEY="${{ secrets.ENTANDO_OPT_TEST_TLS_KEY }}"
-                ;;
-            esac
-          done
-
-          ~/ppl-run generic "$MTX_STEP" --id "$MTX_STEP" --lcd "$LOCAL_CLONE_DIR"
+#  scans:
+#    needs: [ 'prepare', 'full-build' ]
+#    runs-on: ubuntu-latest
+#    if: ${{ needs.prepare.outputs.SCAN_MATRIX != '' }}
+#    strategy:
+#      max-parallel: 5
+#      fail-fast: false
+#      matrix:
+#        mtx-step: ${{fromJson(needs.prepare.outputs.SCAN_MATRIX)}}
+#
+#    steps:
+#      #~ CHECKOUT
+#      - name: "CHECKOUT"
+#        run: |
+#          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+#          ~/ppl-run checkout-branch pr --lcd "$LOCAL_CLONE_DIR"
+#      #~ SCAN
+#      - name: "Run the matrix step ${{ matrix.mtx-step }}"
+#        run: |
+#          MTX_STEP="${{ matrix.mtx-step }}"
+#
+#          ~/ppl-run generic GENERATE-REQUIREMENT-SPEC "MTX_REQUIREMENT" "$MTX_STEP" >> $GITHUB_ENV
+#          for spec in (("${{ env.MTX_REQUIREMENT }}")); do
+#            case "${{ env.MTX_REQUIREMENT }}" in
+#              ENTANDO-REQ-GITHUB-SPECIAL)
+#                export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+#                ;;
+#              ENTANDO-REQ-SNYK)
+#                export SNYK_TOKEN="${{ secrets.SNYK_TOKEN }}"
+#                ;;
+#              ENTANDO-REQ-POST-DEP)
+#                export ENTANDO_OPT_OKD_LOGIN_TOKEN="${{ secrets.ENTANDO_OPT_OKD_LOGIN_TOKEN }}"
+#                export ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS="${{ secrets.ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS }}"
+#                export ENTANDO_OPT_DOCKER_USERNAME="${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}"
+#                export ENTANDO_OPT_DOCKER_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
+#                export ENTANDO_OPT_TEST_TLS_CRT="${{ secrets.ENTANDO_OPT_TEST_TLS_CRT }}"
+#                export ENTANDO_OPT_TEST_TLS_KEY="${{ secrets.ENTANDO_OPT_TEST_TLS_KEY }}"
+#                ;;
+#            esac
+#          done
+#
+#          ~/ppl-run generic "$MTX_STEP" --id "$MTX_STEP" --lcd "$LOCAL_CLONE_DIR"
