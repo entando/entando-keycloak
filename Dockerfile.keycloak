@@ -11,6 +11,8 @@ COPY LICENSE /licences/entando-lgpl.txt
 
 COPY themes /opt/jboss/keycloak/themes
 COPY cli /opt/jboss/keycloak/tools/cli
+COPY jboss-tools/standalone-configuration.cli /opt/jboss/tools/cli/standalone-configuration.cli
+COPY jboss-tools/standalone-ha-configuration.cli /opt/jboss/tools/cli/standalone-ha-configuration.cli
 
 ARG ORACLE_JDBC_DRIVER_VERSION=21.4.0.0.1
 RUN export KEYCLOAK_HTTP_PORT=8080 && \
