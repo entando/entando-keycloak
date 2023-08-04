@@ -1,5 +1,5 @@
 embed-server --server-config=standalone-ha.xml --std-out=echo
-run-batch --file=/opt/jboss/tools/cli/databases/oracle/change-database.cli
+run-batch --file=/opt/jboss/keycloak/tools/cli/databases/oracle/change-database.cli
 run-batch --file=/opt/jboss/tools/cli/loglevel.cli
 run-batch --file=/opt/jboss/tools/cli/proxy.cli
 run-batch --file=/opt/jboss/tools/cli/hostname.cli
