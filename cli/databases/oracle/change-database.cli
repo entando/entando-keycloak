@@ -6,5 +6,4 @@
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=background-validation, value=true)
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=background-validation-millis, value=60000)
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=flush-strategy, value=IdleConnections)
-/subsystem=datasources/data-source=KeycloakDS: write-attribute(name=hibernate.dialect, value=org.hibernate.dialect.OracleDialect)
 /subsystem=datasources/jdbc-driver=oracle:add(driver-name=oracle, driver-module-name=com.oracle.jdbc, driver-xa-datasource-class-name=oracle.jdbc.xa.client.OracleXADataSource)
