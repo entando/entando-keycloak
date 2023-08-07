@@ -32,7 +32,7 @@ ENV JGROUPS_DISCOVERY_PROTOCOL="dns.DNS_PING" \
 USER root
 RUN mkdir -p "$HOME"; \
     chown jboss:jboss "$HOME"; \
-    chmod g+rwx "$HOME" \
+    chmod g+rwx "$HOME" 
 USER jboss
 
 EXPOSE 8080
