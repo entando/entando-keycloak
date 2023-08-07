@@ -14,7 +14,7 @@ COPY --chown=jboss:root cli /opt/jboss/tools/cli/
 COPY --chown=jboss:root jboss-tools/standalone-configuration.cli /opt/jboss/tools/cli/standalone-configuration.cli
 COPY --chown=jboss:root jboss-tools/standalone-ha-configuration.cli /opt/jboss/tools/cli/standalone-ha-configuration.cli
 
-ARG ORACLE_JDBC_DRIVER_VERSION=21.4.0.0.1
+ARG ORACLE_JDBC_DRIVER_VERSION=23.2.0.0
 RUN export KEYCLOAK_HTTP_PORT=8080 && \
       cd  /opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/ && \
       mkdir driver && \
