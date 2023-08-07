@@ -32,7 +32,8 @@ ENV JGROUPS_DISCOVERY_PROTOCOL="dns.DNS_PING" \
 USER root
 RUN mkdir -p "$HOME"; \
     chown jboss:jboss "$HOME"; \
-    chmod g+rwx "$HOME"
+    chmod g+rwx "$HOME" \
+    mkdir -p /ObjectStore/ShadowNoFileLockStore/defaultStore && chmod -R g+w /ObjectStore && chown -R jboss /ObjectStore
 USER jboss
 
 EXPOSE 8080
