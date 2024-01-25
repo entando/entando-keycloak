@@ -19,28 +19,3 @@ services:
       #DB_DATABASE: keycloak
       #DB_USER: username
       #DB_PASSWORD: password
-
-  redhat-sso:
-    build:
-      context: ./
-      dockerfile: Dockerfile.redhat-sso
-    hostname: redhat-sso
-    ports:
-      - "8081:8080"
-    environment:
-      SSO_ADMIN_USERNAME: admin
-      SSO_ADMIN_PASSWORD: qwe123
-      PROXY_ADDRESS_FORWARDING: "true"
-      
-      # Configure a different database (default is H2)
-      #DB_SERVICE_PREFIX_MAPPING: db-postgresql=DB
-      #DB_POSTGRESQL_SERVICE_HOST: "db-host"
-      #DB_POSTGRESQL_SERVICE_PORT: 5432
-      #DB_VENDOR: postgres
-      #DB_DATABASE: postgresql
-      #DB_USERNAME: username
-      #DB_PASSWORD: password
-
-      # Addional configuration needed by Oracle database
-      #DB_URL: jdbc:oracle:thin:@db-host:1521:XE
-      #DB_NONXA: "true"

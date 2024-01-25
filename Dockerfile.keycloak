@@ -1,39 +1,11 @@
-FROM quay.io/keycloak/keycloak:18.0.2-legacy
-LABEL MAINTAINER="Entando <dev@entando.com>"
-ARG VERSION
-LABEL name="Entando Keycloak" \
-      vendor="Entando" \
-      version="v${VERSION}" \
-      release="7" \
-      summary="Keycloak with Entando's themes and extensions." \
-      description="This is container hosts Keycloak along with themes created for Entando."
-COPY LICENSE /licences/entando-lgpl.txt
+FROM quay.io/keycloak/keycloak:23.0.3 as builder
 
-COPY themes /opt/jboss/keycloak/themes
-COPY --chown=jboss:root cli /opt/jboss/tools/cli/
-COPY --chown=jboss:root jboss-tools/standalone-configuration.cli /opt/jboss/tools/cli/standalone-configuration.cli
-COPY --chown=jboss:root jboss-tools/standalone-ha-configuration.cli /opt/jboss/tools/cli/standalone-ha-configuration.cli
+RUN /opt/keycloak/bin/kc.sh build
 
-ARG ORACLE_JDBC_DRIVER_VERSION=23.2.0.0
-RUN export KEYCLOAK_HTTP_PORT=8080 && \
-      cd  /opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/ && \
-      mkdir driver && \
-      curl https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc8/${ORACLE_JDBC_DRIVER_VERSION}/ojdbc8-${ORACLE_JDBC_DRIVER_VERSION}.jar -o driver/ojdbc.jar
+FROM quay.io/keycloak/keycloak:23.0.3
+#COPY themes/entando /opt/keycloak/themes/entando
+COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
-ENV KEYCLOAK_DEFAULT_THEME="entando" \
-    KEYCLOAK_HOME="/opt/jboss/keycloak" \
-    HOME="/home/jboss"
-    
-ENV JGROUPS_DISCOVERY_PROTOCOL="dns.DNS_PING" \
-    JGROUPS_DISCOVERY_PROPERTIES="dns_query=keycloak-headless" \
-    CACHE_OWNERS_COUNT="2" \
-    CACHE_OWNERS_AUTH_SESSIONS_COUNT="2"
+#ENV KC_SPI_THEME_DEFAULT="entando"
 
-USER root
-RUN mkdir -p "$HOME"; \
-    chown jboss:jboss "$HOME"; \
-    chmod g+rwx "$HOME" 
-USER jboss
-
-EXPOSE 8080
-CMD ["-b", "0.0.0.0"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
