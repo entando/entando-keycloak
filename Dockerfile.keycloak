@@ -3,6 +3,15 @@ FROM quay.io/keycloak/keycloak:23.0.4 as builder
 RUN /opt/keycloak/bin/kc.sh build
 
 FROM quay.io/keycloak/keycloak:23.0.4
+LABEL MAINTAINER="Entando <dev@entando.com>"
+ARG VERSION
+LABEL name="Entando Keycloak" \
+      vendor="Entando" \
+      version="v${VERSION}" \
+      release="7.3" \
+      summary="Keycloak with Entando's themes and extensions." \
+      description="This is container hosts Keycloak along with themes created for Entando."
+COPY LICENSE /licences/entando-lgpl.txt
 
 COPY themes/entando /opt/keycloak/themes/entando
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
