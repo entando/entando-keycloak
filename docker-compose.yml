@@ -7,15 +7,18 @@ services:
     hostname: keycloak
     ports:
       - "8081:8080"
+    command:
+      - start
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: qwe123
-      DB_VENDOR: h2
-      PROXY_ADDRESS_FORWARDING: "true"
-
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: qwe123
+      KC_HTTP_RELATIVE_PATH: "/auth"
+      KC_HOSTNAME_STRICT: "false"
+      KC_PROXY: "edge"
+      
       # Other database connection parameters
-      #DB_ADDR: "db-host"
-      #DB_PORT: 3306
-      #DB_DATABASE: keycloak
-      #DB_USER: username
-      #DB_PASSWORD: password
+      #KC_DB: <DB_TYPE>
+      #KC_DB_URL: <URL>
+      #KC_DB_SCHEMA: <SCHEMA> # for postgresql
+      #KC_DB_USERNAME: username
+      #KC_DB_PASSWORD: password
