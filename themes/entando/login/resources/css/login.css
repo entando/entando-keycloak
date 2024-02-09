@@ -421,3 +421,39 @@ row-gap: 14px;
 @keyframes spinner {
   to {
     transform: rotate(360deg); } }
+
+    .pf-c-input-group{
+      position: relative;
+    }
+    
+    .pf-c-button.pf-m-control {
+      background-color: transparent;
+      height: 56px;
+      width: 56px;
+      position: absolute;
+      right: 2px;
+      top: 1px;
+      border: none;
+      z-index: 0;
+    }
+    
+    .fa.fa-eye {
+      background: url("../img/closed.svg");
+      height: 34px;
+      width: 34px;
+      display: block;
+      background-repeat: no-repeat;
+      display: flex;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .fa.fa-eye-slash {
+      background: url("../img/open.svg");
+      height: 38px;
+      width: 38px;
+      display: block;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }

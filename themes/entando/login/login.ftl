@@ -11,7 +11,7 @@
           </div>
           <div class="LoginPage__inputGroup extra-margin">
             <label class="LoginPage__label">${msg("password")}</label>
-            <input type="password" name="password" tabindex="2" class="LoginPage__input" id="password" placeholder="Password" />
+            <input type="password" name="password" tabindex="2" class="LoginPage__input" id="password" placeholder="Password" />  
           </div>
           <#if message?has_content>
             <div class="LoginPage__error">${message.summary?no_esc}</div>
