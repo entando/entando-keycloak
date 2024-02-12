@@ -439,8 +439,8 @@ row-gap: 14px;
     
     .fa.fa-eye {
       background: url("../img/closed.svg");
-      height: 34px;
-      width: 34px;
+      height: 38px;
+      width: 38px;
       display: block;
       background-repeat: no-repeat;
       display: flex;
