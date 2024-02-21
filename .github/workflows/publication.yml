@@ -11,12 +11,9 @@ env:
   PR_CHECKER_PATH: ".github/pr-title-checker-config.json"
 
   DOCKER_KEYCLOAK_IMAGE_BASE_NAME: entando/entando-keycloak
-  DOCKER_SSO_IMAGE_BASE_NAME: entando/entando-redhat-sso
   DOCKER_KEYCLOAK_IMAGE_ARCHITECTURE: linux/amd64,linux/arm64
-  DOCKER_SSO_IMAGE_ARCHITECTURE: linux/amd64
   DOCKER_IMAGE_CONTEXT: .
   DOCKER_KEYCLOAK_IMAGE_FILE: Dockerfile.keycloak
-  DOCKER_SSO_IMAGE_FILE: Dockerfile.redhat-sso
   DOCKER_IMAGE_PUSH: true
 
 jobs:
@@ -54,23 +51,6 @@ jobs:
             type=sha
             type=raw,event=pr,value={{base_ref}}
 
-      - name: Docker meta-sso
-        id: meta-sso
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            ${{ env.DOCKER_SSO_IMAGE_BASE_NAME }}
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=ref,event=tag
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
-            type=raw,event=pr,value={{branch}}
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -101,13 +81,3 @@ jobs:
           tags: ${{ steps.meta-keycloak.outputs.tags }}
           labels: ${{ steps.meta-keycloak.outputs.labels }}
           platforms: ${{ env.DOCKER_KEYCLOAK_IMAGE_ARCHITECTURE }}
-
-      - name: Build sso
-        uses: docker/build-push-action@v4
-        with:
-          context: ${{ env.DOCKER_IMAGE_CONTEXT }}
-          file: ${{ env.DOCKER_SSO_IMAGE_FILE }}
-          push: ${{ env.DOCKER_IMAGE_PUSH }}
-          tags: ${{ steps.meta-sso.outputs.tags }}
-          labels: ${{ steps.meta-sso.outputs.labels }}
-          platforms: ${{ env.DOCKER_SSO_IMAGE_ARCHITECTURE }}
