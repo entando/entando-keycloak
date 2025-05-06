@@ -1,0 +1,59 @@
+#!/bin/bash
+
+_log() {
+  echo "~> $*" 1>&2
+}
+
+_log "Starting Keycloak variables mapping"
+
+# ADMIN USER
+export KC_ADMIN="${KEYCLOAK_USER}"
+export KC_ADMIN_PASSWORD="${KEYCLOAK_PASSWORD}"
+
+# SERVLET SETTINGS
+DEFAULT_SERVER_SERVLET_CONTEXT_PATH="/auth"
+export KC_HOSTNAME_STRICT="${KC_HOSTNAME_STRICT:-false}"
+export KC_HTTP_RELATIVE_PATH="${SERVER_SERVLET_CONTEXT_PATH:-"$DEFAULT_SERVER_SERVLET_CONTEXT_PATH"}"
+export KC_HTTP_ENABLED="${KC_HTTP_ENABLED:-"true"}"
+
+if [ -z "$KC_PROXY_HEADERS" ]; then
+  if [ "${PROXY_ADDRESS_FORWARDING}" = "true" ]; then
+    export KC_PROXY_HEADERS="xforwarded"
+  fi
+fi
+
+# DB SETTINGS
+export KC_DB="${DB_VENDOR,,}"
+export KC_DB_URL_HOST="${DB_ADDR}"
+export KC_DB_URL_PORT="${DB_PORT}"
+export KC_DB_USERNAME="${DB_USER}"
+export KC_DB_PASSWORD="${DB_PASSWORD}"
+export KC_DB_SCHEMA="${DB_SCHEMA}"
+export KC_DB_URL_PROPERTIES="${JDBC_PARAMS}"
+export KC_DB_URL_DATABASE="${DB_DATABASE}"
+
+if [ "${ENTANDO_KC_DB_CONN_MODE}" = "implicit-url" ]; then
+  KC_DB_URL_HOST="" KC_DB_URL_PORT="" KC_DB_URL_DATABASE=""
+  KC_DB_URL="jdbc:${KC_DB}://${KC_DB_URL_HOST}:${KC_DB_URL_PORT}/${KC_DB_URL_DATABASE}"
+  [[ -n "${KC_DB_URL_PROPERTIES}" ]] && KC_DB_URL+="?${KC_DB_URL_PROPERTIES}"
+  export KC_DB_URL
+elif [ "${ENTANDO_KC_DB_CONN_MODE}" = "url" ]; then
+  export KC_DB_URL
+else
+  KC_DB_URL=""
+fi
+
+cat 1>&2 <<-EOS
+~> Resulting Keycloak Variables:
+  KC_DB: "${KC_DB}"
+  KC_DB_URL_HOST: "${KC_DB_URL_HOST}"
+  KC_DB_URL_PORT: "${KC_DB_URL_PORT}"
+  KC_DB_URL_DATABASE: "${KC_DB_URL_DATABASE}"
+  KC_DB_USERNAME: "${KC_DB_USERNAME}"
+  KC_DB_SCHEMA: "${KC_DB_SCHEMA}"
+  KC_DB_URL: "${KC_DB_URL}"
+  KC_HTTP_RELATIVE_PATH: "${KC_HTTP_RELATIVE_PATH}"
+  KC_ADMIN: "${KC_ADMIN}"
+  KC_PROXY_HEADERS: "${KC_PROXY_HEADERS}"
+  KC_HOSTNAME_STRICT: "${KC_HOSTNAME_STRICT}"
+EOS
