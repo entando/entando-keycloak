@@ -13,12 +13,6 @@ In order to run locally using Keycloak:
 docker-compose up --build keycloak
 ```
 
-In order to run locally using Red Hat SSO:
-
-```
-docker-compose up --build redhat-sso
-```
-
 then open the browser to show the login screen. Default port (host is localhost) and credentials are set up in the `docker-compose.yml` file.
 
 ## Troubleshooting
