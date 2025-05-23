@@ -7,8 +7,13 @@ _log() {
 _log "Starting Keycloak variables mapping"
 
 # ADMIN USER
-export KC_ADMIN="${KEYCLOAK_USER}"
-export KC_ADMIN_PASSWORD="${KEYCLOAK_PASSWORD}"
+if [ -n "SSO_ADMIN_USERNAME" ]; then
+  export KC_ADMIN="${SSO_ADMIN_USERNAME}"
+  export KC_ADMIN_PASSWORD="${SSO_ADMIN_PASSWORD}"
+else
+  export KC_ADMIN="${KEYCLOAK_USER}"
+  export KC_ADMIN_PASSWORD="${KEYCLOAK_PASSWORD}"
+fi
 
 # SERVLET SETTINGS
 DEFAULT_SERVER_SERVLET_CONTEXT_PATH="/auth"
@@ -24,9 +29,21 @@ fi
 
 # DB SETTINGS
 export KC_DB="${DB_VENDOR,,}"
-export KC_DB_URL_HOST="${DB_ADDR}"
-export KC_DB_URL_PORT="${DB_PORT}"
-export KC_DB_USERNAME="${DB_USER}"
+if [ -n "DB_POSTGRESQL_SERVICE_HOST" ]; then
+  export KC_DB_URL_HOST="${DB_POSTGRESQL_SERVICE_HOST}"
+  export KC_DB_URL_PORT="${DB_POSTGRESQL_SERVICE_PORT}"
+elif [ -n "DB_MYSQL_SERVICE_HOST" ]; then
+  export KC_DB_URL_HOST="${DB_MYSQL_SERVICE_HOST}"
+  export KC_DB_URL_PORT="${DB_MYSQL_SERVICE_PORT}"
+else
+  export KC_DB_URL_HOST="${DB_ADDR}"
+  export KC_DB_URL_PORT="${DB_PORT}"
+fi
+if [ -n "DB_USERNAME" ]; then
+  export KC_DB_USERNAME="${DB_USERNAME}"
+else
+  export KC_DB_USERNAME="${DB_USER}"
+fi
 export KC_DB_PASSWORD="${DB_PASSWORD}"
 export KC_DB_SCHEMA="${DB_SCHEMA}"
 export KC_DB_URL_PROPERTIES="${JDBC_PARAMS}"
