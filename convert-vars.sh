@@ -7,7 +7,7 @@ _log() {
 _log "Starting Keycloak variables mapping"
 
 # ADMIN USER
-if [ -n "SSO_ADMIN_USERNAME" ]; then
+if [ -n "${SSO_ADMIN_USERNAME}" ]; then
   export KC_ADMIN="${SSO_ADMIN_USERNAME}"
   export KC_ADMIN_PASSWORD="${SSO_ADMIN_PASSWORD}"
 else
@@ -21,7 +21,7 @@ export KC_HOSTNAME_STRICT="${KC_HOSTNAME_STRICT:-false}"
 export KC_HTTP_RELATIVE_PATH="${SERVER_SERVLET_CONTEXT_PATH:-"$DEFAULT_SERVER_SERVLET_CONTEXT_PATH"}"
 export KC_HTTP_ENABLED="${KC_HTTP_ENABLED:-"true"}"
 
-if [ -z "$KC_PROXY_HEADERS" ]; then
+if [ -z "${KC_PROXY_HEADERS}" ]; then
   if [ "${PROXY_ADDRESS_FORWARDING}" = "true" ]; then
     export KC_PROXY_HEADERS="xforwarded"
   fi
@@ -29,17 +29,17 @@ fi
 
 # DB SETTINGS
 export KC_DB="${DB_VENDOR,,}"
-if [ -n "DB_POSTGRESQL_SERVICE_HOST" ]; then
+if [ -n "${DB_POSTGRESQL_SERVICE_HOST}" ]; then
   export KC_DB_URL_HOST="${DB_POSTGRESQL_SERVICE_HOST}"
   export KC_DB_URL_PORT="${DB_POSTGRESQL_SERVICE_PORT}"
-elif [ -n "DB_MYSQL_SERVICE_HOST" ]; then
+elif [ -n "${DB_MYSQL_SERVICE_HOST}" ]; then
   export KC_DB_URL_HOST="${DB_MYSQL_SERVICE_HOST}"
   export KC_DB_URL_PORT="${DB_MYSQL_SERVICE_PORT}"
 else
   export KC_DB_URL_HOST="${DB_ADDR}"
   export KC_DB_URL_PORT="${DB_PORT}"
 fi
-if [ -n "DB_USERNAME" ]; then
+if [ -n "${DB_USERNAME}" ]; then
   export KC_DB_USERNAME="${DB_USERNAME}"
 else
   export KC_DB_USERNAME="${DB_USER}"
