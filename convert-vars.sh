@@ -14,6 +14,15 @@ else
   export KC_ADMIN="${KEYCLOAK_USER}"
   export KC_ADMIN_PASSWORD="${KEYCLOAK_PASSWORD}"
 fi
+if [ -n "${KC_ADMIN}" ]; then
+  export KEYCLOAK_ADMIN="${KC_ADMIN}"
+  export KEYCLOAK_ADMIN_PASSWORD="${KC_ADMIN_PASSWORD}"
+  # Export backward-compatible variables for EntandoKeycloakServerController
+  export KEYCLOAK_USER="${KC_ADMIN}"
+  export KEYCLOAK_PASSWORD="${KC_ADMIN_PASSWORD}"
+  export SSO_ADMIN_USERNAME="${KC_ADMIN}"
+  export SSO_ADMIN_PASSWORD="${KC_ADMIN_PASSWORD}"
+fi
 
 # SERVLET SETTINGS
 DEFAULT_SERVER_SERVLET_CONTEXT_PATH="/auth"
@@ -28,7 +37,11 @@ if [ -z "${KC_PROXY_HEADERS}" ]; then
 fi
 
 # DB SETTINGS
-export KC_DB="${DB_VENDOR,,}"
+if [[ -n "$DB_VENDOR" && ( "$DB_VENDOR" == "h2" || "$DB_VENDOR" == "H2" ) ]]; then
+  export KC_DB="dev-mem"
+else
+  export KC_DB="${DB_VENDOR,,}"
+fi
 if [ -n "${DB_POSTGRESQL_SERVICE_HOST}" ]; then
   export KC_DB_URL_HOST="${DB_POSTGRESQL_SERVICE_HOST}"
   export KC_DB_URL_PORT="${DB_POSTGRESQL_SERVICE_PORT}"
@@ -41,13 +54,19 @@ else
 fi
 if [ -n "${DB_USERNAME}" ]; then
   export KC_DB_USERNAME="${DB_USERNAME}"
-else
+elif [ -n "${DB_USER}" ]; then
   export KC_DB_USERNAME="${DB_USER}"
 fi
 export KC_DB_PASSWORD="${DB_PASSWORD}"
-export KC_DB_SCHEMA="${DB_SCHEMA}"
-export KC_DB_URL_PROPERTIES="${JDBC_PARAMS}"
-export KC_DB_URL_DATABASE="${DB_DATABASE}"
+if [ -n "${DB_SCHEMA}" ]; then
+  export KC_DB_SCHEMA="${DB_SCHEMA}"
+fi
+if [ -n "${JDBC_PARAMS}" ]; then
+  export KC_DB_URL_PROPERTIES="${JDBC_PARAMS}"
+fi
+if [ -n "${DB_DATABASE}" ]; then
+  export KC_DB_URL_DATABASE="${DB_DATABASE}"
+fi
 
 if [ "${ENTANDO_KC_DB_CONN_MODE}" = "implicit-url" ]; then
   KC_DB_URL_HOST="" KC_DB_URL_PORT="" KC_DB_URL_DATABASE=""
@@ -62,6 +81,7 @@ fi
 
 cat 1>&2 <<-EOS
 ~> Resulting Keycloak Variables:
+  DB_VENDOR: "${DB_VENDOR}"
   KC_DB: "${KC_DB}"
   KC_DB_URL_HOST: "${KC_DB_URL_HOST}"
   KC_DB_URL_PORT: "${KC_DB_URL_PORT}"
