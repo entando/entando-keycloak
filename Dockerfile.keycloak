@@ -21,9 +21,15 @@ COPY convert-vars.sh /opt/convert-vars.sh
 
 USER root
 RUN chmod +x /opt/docker-entrypoint.sh /opt/convert-vars.sh
+ENV HOME="/home/keycloak"
+RUN mkdir -p "$HOME"; \
+    chown keycloak:keycloak "$HOME"; \
+    chmod g+rwx "$HOME"
+
 USER keycloak
 
 ENV KC_SPI_THEME_DEFAULT="entando" \
-    KEYCLOAK_HOME="/opt/keycloak"
+    KEYCLOAK_HOME="/opt/keycloak" \
+    HOME="/home/keycloak"
 
 ENTRYPOINT ["/opt/docker-entrypoint.sh"]
