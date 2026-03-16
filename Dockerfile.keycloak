@@ -8,7 +8,7 @@ ARG VERSION
 LABEL name="Entando Keycloak" \
       vendor="Entando" \
       version="v${VERSION}" \
-      release="7.3" \
+      release="7.5" \
       summary="Keycloak with Entando's themes and extensions." \
       description="This is container hosts Keycloak along with themes created for Entando."
 COPY LICENSE /licences/entando-lgpl.txt
