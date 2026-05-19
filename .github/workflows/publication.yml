@@ -16,7 +16,7 @@ env:
   DOCKER_SSO_IMAGE_ARCHITECTURE: linux/amd64
   DOCKER_IMAGE_CONTEXT: .
   DOCKER_KEYCLOAK_IMAGE_FILE: Dockerfile.keycloak
-  DOCKER_SSO_IMAGE_FILE: Dockerfile.redhat-sso
+  DOCKER_SSO_IMAGE_FILE: Dockerfile.keycloak
   DOCKER_IMAGE_PUSH: true
 
 jobs:
