@@ -14,6 +14,7 @@ LABEL name="Entando Keycloak" \
 COPY LICENSE /licences/entando-lgpl.txt
 
 COPY themes/entando /opt/keycloak/themes/entando
+COPY themes/entando-mfa /opt/keycloak/themes/entando-mfa
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
