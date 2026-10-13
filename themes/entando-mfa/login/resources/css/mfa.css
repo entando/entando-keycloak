@@ -1,0 +1,571 @@
+/* Entando MFA - styles for the multi-factor authentication pages.
+   Builds on top of the Entando login.css (colors, fonts, inputs and buttons). */
+
+/* The Entando layout has a fixed viewport height and sizes the logo row as 1/3 of the card:
+   the (taller) MFA pages must grow beyond the viewport and keep the logo row at its natural height. */
+.LoginPage {
+ height: auto;
+ min-height: 100%;
+ padding-bottom: 40px;
+ box-sizing: border-box;
+}
+
+.LoginPage__formWrapper {
+ grid-template-rows: auto 1fr auto;
+}
+
+.MfaPage {
+ display: grid;
+ grid-template-columns: minmax(0, 1fr);
+ row-gap: 20px;
+ align-content: start;
+ padding: 30px 50px 10px;
+ font-family: "Roboto", sans-serif;
+ color: #4d4d4d;
+}
+
+.MfaPage__header {
+ display: flex;
+ align-items: center;
+ gap: 14px;
+}
+
+.MfaPage__title {
+ color: #002f87;
+ font-size: 24px;
+ font-weight: 500;
+ letter-spacing: -0.17px;
+ line-height: 30px;
+}
+
+.MfaPage__text {
+ font-size: 16px;
+ line-height: 24px;
+}
+
+.MfaPage__info {
+ font-size: 16px;
+ line-height: 24px;
+ text-align: center;
+}
+
+/* Icons */
+
+.MfaIcon {
+ width: 24px;
+ height: 24px;
+ flex: none;
+ fill: none;
+ stroke: currentColor;
+ stroke-width: 1.8;
+ stroke-linecap: round;
+ stroke-linejoin: round;
+}
+
+.MfaBadge {
+ display: flex;
+ flex: none;
+ align-items: center;
+ justify-content: center;
+ width: 48px;
+ height: 48px;
+ border-radius: 50%;
+ background-color: #e5f5fc;
+ color: #00a0df;
+}
+
+/* Attempted username */
+
+.MfaUser {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 12px;
+ padding: 10px 14px;
+ background-color: #f2f4f8;
+ font-size: 16px;
+ line-height: 24px;
+}
+
+.MfaUser__name {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ min-width: 0;
+ color: #002f87;
+ font-weight: 500;
+ overflow-wrap: anywhere;
+}
+
+.MfaUser__name .MfaIcon {
+ width: 20px;
+ height: 20px;
+ color: #72767b;
+}
+
+/* Feedback messages */
+
+.MfaAlert {
+ padding: 12px 16px;
+ border-left: 4px solid #00a0df;
+ background-color: #e5f5fc;
+ font-size: 16px;
+ line-height: 22px;
+}
+
+.MfaAlert--error {
+ border-left-color: #cc0000;
+ background-color: #fdecec;
+ color: #a30000;
+}
+
+.MfaAlert--warning {
+ border-left-color: #f0ab00;
+ background-color: #fdf7e7;
+}
+
+.MfaAlert--success {
+ border-left-color: #3f9c35;
+ background-color: #eef7ec;
+}
+
+.MfaAlert__title {
+ display: block;
+ margin-bottom: 4px;
+ font-weight: 500;
+}
+
+/* Links and buttons */
+
+.MfaLink {
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ padding: 0;
+ border: 0;
+ background: none;
+ color: #00a0df;
+ font-family: "Roboto", sans-serif;
+ font-size: 16px;
+ line-height: 24px;
+ text-decoration: none;
+ cursor: pointer;
+}
+
+.MfaLink:hover {
+ text-decoration: underline;
+}
+
+.MfaLink .MfaIcon {
+ width: 18px;
+ height: 18px;
+}
+
+.MfaLink.is-copied {
+ color: #3f9c35;
+}
+
+.MfaActions {
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: flex-end;
+ gap: 12px;
+ margin-top: 6px;
+}
+
+.MfaActions .LoginPage__button {
+ width: auto;
+ min-width: 171px;
+ padding: 0 24px;
+}
+
+.MfaActions .MfaButton--secondary,
+.MfaActions__secondary {
+ order: -1;
+}
+
+.LoginPage__button.MfaButton--secondary {
+ border: 2px solid #00a0df;
+ background-color: #ffffff;
+ color: #00a0df;
+}
+
+.LoginPage__button:disabled {
+ opacity: 40%;
+ cursor: not-allowed;
+}
+
+.MfaAnotherWay {
+ padding-top: 16px;
+ border-top: 1px solid #e1e4ea;
+ text-align: center;
+}
+
+.MfaLink:focus-visible,
+.MfaChoice__item:focus-visible,
+.MfaChoice__radio:focus-visible + .MfaChoice__item,
+.LoginPage__button:focus-visible,
+.MfaCheckbox input:focus-visible {
+ outline: 2px solid #002f87;
+ outline-offset: 2px;
+}
+
+/* Forms */
+
+.MfaForm {
+ display: grid;
+ grid-template-columns: minmax(0, 1fr);
+ row-gap: 18px;
+}
+
+.MfaField {
+ display: grid;
+ grid-template-columns: minmax(0, 1fr);
+ min-width: 0;
+}
+
+fieldset.MfaField {
+ border: 0;
+}
+
+.MfaField__hint {
+ margin-top: 6px;
+ color: #72767b;
+ font-size: 14px;
+ line-height: 20px;
+}
+
+.MfaField__error {
+ margin-top: 6px;
+ color: #cc0000;
+ font-size: 15px;
+ line-height: 20px;
+}
+
+.MfaRequired {
+ color: #cc0000;
+}
+
+.MfaOptional {
+ color: #72767b;
+ font-size: 14px;
+}
+
+.LoginPage__input[aria-invalid="true"] {
+ border: 1px solid #cc0000;
+}
+
+.MfaCodeInput {
+ padding: 0 10px;
+ color: #002f87;
+ font-family: "Roboto Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+ font-size: 28px;
+ letter-spacing: 0.4em;
+ text-align: center;
+}
+
+.MfaCodeInput::placeholder {
+ color: #999999;
+ font-family: "Roboto", sans-serif;
+ font-size: 18px;
+ letter-spacing: normal;
+}
+
+.MfaCodeInput--recovery {
+ font-size: 22px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+}
+
+.MfaCheckbox {
+ display: flex;
+ align-items: flex-start;
+ gap: 10px;
+ font-size: 16px;
+ line-height: 22px;
+ cursor: pointer;
+}
+
+.MfaCheckbox input {
+ flex: none;
+ width: 18px;
+ height: 18px;
+ margin: 2px 0 0;
+ accent-color: #00a0df;
+ cursor: pointer;
+}
+
+/* Selectable lists (authentication methods, OTP devices) */
+
+.MfaChoice {
+ display: grid;
+ grid-template-columns: minmax(0, 1fr);
+ row-gap: 10px;
+}
+
+.MfaChoice__item {
+ display: flex;
+ align-items: center;
+ gap: 14px;
+ width: 100%;
+ box-sizing: border-box;
+ padding: 14px 16px;
+ border: 1px solid #d8dde6;
+ background-color: #ffffff;
+ color: inherit;
+ font-family: "Roboto", sans-serif;
+ text-align: left;
+ cursor: pointer;
+ transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.MfaChoice__item:hover {
+ border-color: #00a0df;
+}
+
+.MfaChoice__item--static,
+.MfaChoice__item--static:hover {
+ border-color: #d8dde6;
+ cursor: default;
+}
+
+.MfaChoice__icon {
+ display: flex;
+ flex: none;
+ align-items: center;
+ justify-content: center;
+ width: 40px;
+ height: 40px;
+ border-radius: 50%;
+ background-color: #f2f4f8;
+ color: #002f87;
+}
+
+.MfaChoice__icon .MfaIcon {
+ width: 22px;
+ height: 22px;
+}
+
+.MfaChoice__body {
+ display: flex;
+ flex: 1;
+ flex-direction: column;
+ min-width: 0;
+}
+
+.MfaChoice__heading {
+ color: #002f87;
+ font-size: 17px;
+ font-weight: 500;
+ line-height: 24px;
+ overflow-wrap: anywhere;
+}
+
+.MfaChoice__description {
+ margin-top: 2px;
+ color: #72767b;
+ font-size: 14px;
+ line-height: 20px;
+}
+
+.MfaChoice__arrow {
+ display: flex;
+ color: #9aa1ad;
+}
+
+.MfaChoice__item:hover .MfaChoice__arrow {
+ color: #00a0df;
+}
+
+.MfaChoice__radio {
+ position: absolute;
+ opacity: 0;
+ pointer-events: none;
+}
+
+.MfaChoice__check {
+ flex: none;
+ width: 20px;
+ height: 20px;
+ box-sizing: border-box;
+ border: 2px solid #9aa1ad;
+ border-radius: 50%;
+}
+
+.MfaChoice__radio:checked + .MfaChoice__item {
+ border-color: #00a0df;
+ background-color: #f3fbfe;
+ box-shadow: inset 0 0 0 1px #00a0df;
+}
+
+.MfaChoice__radio:checked + .MfaChoice__item .MfaChoice__icon {
+ background-color: #e5f5fc;
+ color: #00a0df;
+}
+
+.MfaChoice__radio:checked + .MfaChoice__item .MfaChoice__check {
+ border: 6px solid #00a0df;
+}
+
+/* Authenticator setup steps */
+
+.MfaSteps {
+ display: grid;
+ grid-template-columns: minmax(0, 1fr);
+ row-gap: 22px;
+}
+
+.MfaStep {
+ display: grid;
+ grid-template-columns: 32px minmax(0, 1fr);
+ column-gap: 14px;
+}
+
+.MfaStep__number {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: 32px;
+ height: 32px;
+ border-radius: 50%;
+ background-color: #002f87;
+ color: #ffffff;
+ font-size: 16px;
+ font-weight: 500;
+}
+
+.MfaStep__title {
+ color: #002f87;
+ font-size: 18px;
+ font-weight: 500;
+ line-height: 32px;
+}
+
+.MfaStep__text {
+ margin-top: 4px;
+ font-size: 16px;
+ line-height: 24px;
+}
+
+.MfaStep__text + .MfaStep__text {
+ margin-top: 10px;
+}
+
+.MfaChips {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 8px;
+ margin-top: 10px;
+}
+
+.MfaChip {
+ padding: 6px 12px;
+ border-radius: 16px;
+ background-color: #f2f4f8;
+ color: #002f87;
+ font-size: 15px;
+ line-height: 20px;
+}
+
+.MfaQr {
+ display: flex;
+ flex-wrap: wrap;
+ align-items: center;
+ gap: 20px;
+ margin-top: 12px;
+}
+
+.MfaQr__image {
+ width: 168px;
+ height: 168px;
+ padding: 8px;
+ border: 1px solid #d8dde6;
+ background-color: #ffffff;
+ image-rendering: pixelated;
+}
+
+.MfaSecret {
+ display: flex;
+ flex-wrap: wrap;
+ align-items: center;
+ gap: 10px 16px;
+ margin-top: 10px;
+ padding: 12px 14px;
+ background-color: #f2f4f8;
+}
+
+.MfaSecret__value {
+ flex: 1;
+ min-width: 0;
+ color: #002f87;
+ font-family: "Roboto Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+ font-size: 17px;
+ letter-spacing: 1px;
+ line-height: 26px;
+ overflow-wrap: anywhere;
+}
+
+.MfaDl {
+ display: grid;
+ grid-template-columns: auto 1fr;
+ gap: 6px 16px;
+ margin-top: 10px;
+ font-size: 15px;
+ line-height: 22px;
+}
+
+.MfaDl dt {
+ color: #72767b;
+}
+
+.MfaDl dd {
+ color: #002f87;
+ font-weight: 500;
+}
+
+/* Recovery codes */
+
+.MfaCodes {
+ display: grid;
+ grid-template-columns: repeat(2, minmax(0, 1fr));
+ gap: 8px 24px;
+ padding: 16px 20px;
+ background-color: #f2f4f8;
+ color: #002f87;
+ font-family: "Roboto Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+ font-size: 16px;
+ line-height: 24px;
+}
+
+.MfaCodes__index {
+ display: inline-block;
+ min-width: 2.2em;
+ color: #72767b;
+}
+
+.MfaToolbar {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 10px 24px;
+}
+
+@media (max-width: 500px) {
+ .MfaPage {
+  padding: 0 20px 10px;
+ }
+ .MfaCodes {
+  grid-template-columns: minmax(0, 1fr);
+ }
+ .MfaActions {
+  flex-direction: column;
+ }
+ .MfaActions .LoginPage__button,
+ .MfaActions__secondary,
+ .MfaActions__secondary .LoginPage__button {
+  width: 100%;
+ }
+ .MfaActions .MfaButton--secondary,
+ .MfaActions__secondary {
+  order: 0;
+ }
+}
