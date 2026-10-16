@@ -16,7 +16,7 @@
               <label for="kc-otp-credential-${otpCredential?index}" class="MfaChoice__item">
                 <span class="MfaChoice__icon"><@layout.svg name="phone" /></span>
                 <span class="MfaChoice__body">
-                  <span class="MfaChoice__heading">${otpCredential.userLabel!msg("mfaOtpDefaultDeviceName")}</span>
+                  <span class="MfaChoice__heading">${(otpCredential.userLabel?has_content)?then(otpCredential.userLabel, msg("mfaOtpDefaultDeviceName"))}</span>
                 </span>
                 <span class="MfaChoice__check" aria-hidden="true"></span>
               </label>

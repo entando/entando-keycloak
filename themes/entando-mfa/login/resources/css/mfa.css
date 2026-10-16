@@ -246,11 +246,6 @@ fieldset.MfaField {
  color: #cc0000;
 }
 
-.MfaOptional {
- color: #72767b;
- font-size: 14px;
-}
-
 .LoginPage__input[aria-invalid="true"] {
  border: 1px solid #cc0000;
 }

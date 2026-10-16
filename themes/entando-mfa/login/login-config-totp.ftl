@@ -80,11 +80,13 @@
 
       <div class="MfaField">
         <label for="userLabel" class="LoginPage__label">
-          ${msg("loginTotpDeviceName")}
-          <#if totp.otpCredentials?size gte 1><span class="MfaRequired">*</span><#else><span class="MfaOptional">${msg("mfaOptional")}</span></#if>
+          ${msg("loginTotpDeviceName")} <span class="MfaRequired">*</span>
         </label>
+        <#-- Keycloak requires the device name only from the second device on: the theme requires it for the
+             first one too, so that devices are never shown as unnamed (browser-side validation only) -->
         <input type="text" id="userLabel" name="userLabel" class="LoginPage__input" autocomplete="off"
-          placeholder="${msg("mfaTotpDeviceNamePlaceholder")}"
+          placeholder="${msg("mfaTotpDeviceNamePlaceholder")}" required pattern=".*\S.*" maxlength="255"
+          data-mfa-required-message="${msg("missingTotpDeviceNameMessage")}"
           aria-invalid="<#if messagesPerField.existsError('userLabel')>true</#if>" aria-describedby="input-error-otp-label" />
         <span class="MfaField__hint">${msg("loginTotpStep3DeviceName")}</span>
         <@layout.fieldError field="userLabel" id="input-error-otp-label" />
@@ -96,7 +98,7 @@
       <div class="MfaActions">
         <button type="submit" class="LoginPage__button" id="saveTOTPBtn">${msg("doSubmit")}</button>
         <#if isAppInitiatedAction??>
-          <button type="submit" class="LoginPage__button MfaButton--secondary" id="cancelTOTPBtn" name="cancel-aia" value="true">${msg("doCancel")}</button>
+          <button type="submit" class="LoginPage__button MfaButton--secondary" id="cancelTOTPBtn" name="cancel-aia" value="true" formnovalidate>${msg("doCancel")}</button>
         </#if>
       </div>
     </form>
