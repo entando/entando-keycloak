@@ -12,6 +12,19 @@
     });
   });
 
+  // Required fields show the theme message (in the page language) instead of the browser default one
+  document.querySelectorAll('[data-mfa-required-message]').forEach(function (input) {
+    var message = input.getAttribute('data-mfa-required-message');
+    input.addEventListener('invalid', function () {
+      input.setCustomValidity(message);
+      input.setAttribute('aria-invalid', 'true');
+    });
+    input.addEventListener('input', function () {
+      input.setCustomValidity('');
+      input.removeAttribute('aria-invalid');
+    });
+  });
+
   // Checkboxes that enable a button when checked
   document.querySelectorAll('[data-mfa-enables]').forEach(function (checkbox) {
     var target = document.querySelector(checkbox.getAttribute('data-mfa-enables'));
