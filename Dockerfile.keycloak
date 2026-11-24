@@ -2,6 +2,11 @@ FROM quay.io/keycloak/keycloak:24.0.5 AS builder
 
 RUN /opt/keycloak/bin/kc.sh build
 
+# keycloak:24.0.5 ships with java 17.0.14, we override it with java 17.0.21.1
+FROM registry.access.redhat.com/ubi9/ubi AS jdk
+RUN dnf install -y --installroot /mnt/rootfs --releasever 9 --setopt install_weak_deps=false --nodocs "java-17-openjdk-headless-17.0.21.1*" \
+    && dnf --installroot /mnt/rootfs clean all && rpm --root /mnt/rootfs -e --nodeps setup
+
 FROM quay.io/keycloak/keycloak:24.0.5
 LABEL MAINTAINER="Entando <dev@entando.com>"
 ARG VERSION
@@ -12,6 +17,7 @@ LABEL name="Entando Keycloak" \
       summary="Keycloak with Entando's themes and extensions." \
       description="This is container hosts Keycloak along with themes created for Entando."
 COPY LICENSE /licences/entando-lgpl.txt
+COPY --from=jdk /mnt/rootfs /
 
 COPY themes/entando /opt/keycloak/themes/entando
 COPY themes/entando-mfa /opt/keycloak/themes/entando-mfa
@@ -21,7 +27,7 @@ COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 COPY convert-vars.sh /opt/convert-vars.sh
 
 USER root
-RUN chmod +x /opt/docker-entrypoint.sh /opt/convert-vars.sh
+RUN chmod +x /opt/docker-entrypoint.sh /opt/convert-vars.sh && rm -rf /usr/lib/jvm/*-17.0.14.* /etc/java/java-17-openjdk/*-17.0.14.*
 ENV HOME="/home/keycloak"
 RUN mkdir -p "$HOME"; \
     chown keycloak:keycloak "$HOME"; \
